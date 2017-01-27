@@ -18,7 +18,7 @@ In this series of labs you will:
 1.	Open a browser and navigate to http://www.azureiotsuite.com
 2.	Log-in with the credentials that are associated with your Azure Subscription  (most likely your corporate credentials)
 3.	You should see the plus button shown below
-![New Solution](images\m1NewSolution.png)
+![New Solution](images/m1NewSolution.png)
 
 
 4.	Click on the “+” to create your new solution.
@@ -28,13 +28,13 @@ In this series of labs you will:
     2. 	Type in a unique solution name.  The name has to be globally unique, so typically some combination of your name or     initials, company, etc will help with that.  Once you enter an acceptable name, you will get a green checkbox         indicating that name is free to use and valid
     3. 	Choose our Azure Subscription from the drop down list box.  The components of the solution will be generated in       this subscription
     4. 	Choose your nearest and desired data center (i.e.  East US would be most appropriate for New Jersey)
-    ![Add Location](images\m1EnterLocation.png)
+    ![Add Location](images/m1EnterLocation.png)
  
 
 7.	Click “Create Solution” to start the solution deployment process
 8.	Deployment should take about 15 minutes
 9.	Once done, you should be able to click on the solution (click on the picture), and see the pop-out on the left like this one
-![Confirmation](images\m1Confirmation.png)
+![Confirmation](images/m1Confirmation.png)
 
 Congratulations – you have successfully deployed the Azure IoT RM-PCS
 
