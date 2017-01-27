@@ -5,8 +5,8 @@
 This lab is focused on configuring an Azure Stream Analytics for filtering the incoming device data stream for alert conditions.  An alert condition, in the context of this lab, is a high temperature violation of a defined temperature threshold This lab is the third in a series that walks through building an end-to-end Internet of Things prototype for doing temperature monitoring. 
 
 In this series of labs, you will:
-1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
 
+1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
 2. Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
 3. Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
 4. Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
@@ -16,6 +16,7 @@ At the end of this lab you will have written the streaming query to identify ale
 #### Step 1 - Create a Stream Analytics Job
 
 In this section, you will create a new Stream Analytics Job and validate events are flowing properly.
+
 1.	Using a web browser navigate to portal.azure.com
 2.	Create a new Stream Analytics Job from the portal navigation using + New -> Internet of Things -> Stream Analytics Job.
 
