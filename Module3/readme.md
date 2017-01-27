@@ -17,8 +17,8 @@ At the end of this lab you will have written the streaming query to identify ale
 
 In this section, you will create a new Stream Analytics Job and validate events are flowing properly.
 
-1.	Using a web browser navigate to portal.azure.com
-2.	Create a new Stream Analytics Job from the portal navigation using + New -> Internet of Things -> Stream Analytics Job.
+1. Using a web browser navigate to portal.azure.com
+2. Create a new Stream Analytics Job from the portal navigation using + New -> Internet of Things -> Stream Analytics Job.
 
 ![Add Stream Analytics](/images/m3AddASA.png)
  
