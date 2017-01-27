@@ -18,13 +18,11 @@ It has also been tested and used on these platforms:
 
 In this series of labs, you will:
 1.	Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
-2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the      RM-PCS for display
-3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further      processing
-4.	Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending      on the alert condition.
+2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
+3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
+4.	Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
     At the end of this lab you will have a physical IoT device connected to Wifi, sending telemetry data to Azure IoT, and listening to and responding to commands from Azure.
 
-
- 
 #### Step 1 - Environment and device setup
 In this section, we will get our desktops talking to our Raspberry Pi’s (RPI), login, and make sure they are connected to the network.  Once done, we will make the physical connections between our Pi’s and the DHT22 temperature and humidity sensor, and an LED to represent a “high temperature alarm”.
 Several things have already been pre-setup for you on the RPI’s provided for this lab
@@ -34,7 +32,7 @@ Several things have already been pre-setup for you on the RPI’s provided for t
 *	The Azure IoT SDK has already been downloaded from github   ( https://github.com/Azure/azure-iot-sdks  if you want to     check them out yourself)
 *	Python drivers for the DHT22 sensor have been preinstalled   (https://github.com/adafruit/Adafruit_Python_DHT)
 
-If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you ), the process for setting up the RPI for the lab is in Appendix A
+If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you), the process for setting up the RPI for the lab is in Appendix A
 
 For the lab, we’ll first wire up the RPI before we power it on and connect to it.  Like with most electronics, it’s always safer to do any wiring with the device powered off.  If your RPI is powered on, remove the power at this point.
 
@@ -48,7 +46,7 @@ First let’s cover the electrical components involved.
 
 Your kit comes with what’s called a “cobbler”.  The purpose of the cobbler is to bridge the connections between your RPI and the breadboard.  The cobbler plugs into the breadboard (as shown below), and then connects via the supplied ribbon cable to the ribbon connectors on the RPI.
 
-![Cobbler](/images/Cobbler.png)
+![Cobbler](/images/m2Cobbler.png)
  
 The DHT22 temperature and humidity sensor has pins that will plug into the breadboard directly.  
 
@@ -125,7 +123,6 @@ Before we can connect the device to the Azure RM-PCS, we need to let the solutio
 7.	Click Done.  On the Devices screen, note that your device is in a “pending” state.  That essentially means that the solution knows about your device and is ready for it, but has not yet “heard from” that device.  We will remedy that in the next section
  
 
- 
 #### Step 4 - Posting Telemetry data to Azure 
 The code to read from your DHT22 sensor and post to Azure has been provided as part of this lab.  Now that we have our keys, strings, etc, we’ll need to download it, modify it for your specific RM-PCS solution details, run it, and test it.  Follow the steps below to get started
 
