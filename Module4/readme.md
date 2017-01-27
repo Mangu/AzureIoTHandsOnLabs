@@ -98,29 +98,35 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
         
 9. Now for our code.  Within the Run function, underneath the first ‘logging’ line, enter the code below
 
-        // Service Client is the object used to talk to the IoTHub command & control APIs
-        ServiceClient serviceClient;
-       // normally, the connection string would be stored securely in configuration..  but, it's a demo :-)
-        string connectionString = "HostName=stevebusrm2.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=WMa75eH78yB6bXzOKV2xIRtTeaWflVGCRr8rUX+nPMk=";
-        serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
-        // parse the JSON object from the queue
-        dynamic jsonData = JObject.Parse(myEventHubMessage); 
-        // pull out the device ID and whether it's a high or low temp state
-        string deviceID = jsonData["deviceid"].ToString();
-        string alertTempState = jsonData["tempstate"].ToString();
-        // if low, turn off, otherwise turn on
-        string command = "OFF";
-        if(alertTempState == "OVER")
-        {
-             command = "ON";
-             log.Info("High threshold violated, sending 'ON' command");
-        }   
-        else
-            log.Info("Temp now below threshold, sending 'OFF' command");
-        // create a message object to wrap the command and send as an array of bytes
-        var commandMessage = new Message(Encoding.ASCII.GetBytes(command));
-        // send the command to the device
-        serviceClient.SendAsync(deviceID, commandMessage);
+            // Service Client is the object used to talk to the IoTHub command & control APIs
+            ServiceClient serviceClient;
+            
+            // normally, the connection string would be stored securely in configuration..  but, it's a demo :-)
+            string connectionString = "HostName=stevebusrm2.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=WMa75eH78yB6bXzOKV2xIRtTeaWflVGCRr8rUX+nPMk=";
+            serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
+            
+            // parse the JSON object from the queue
+            dynamic jsonData = JObject.Parse(myEventHubMessage); 
+            
+            // pull out the device ID and whether it's a high or low temp state
+            string deviceID = jsonData["deviceid"].ToString();
+            string alertTempState = jsonData["tempstate"].ToString();
+            
+            // if low, turn off, otherwise turn on
+            string command = "OFF";
+            if(alertTempState == "OVER")
+            {
+                 command = "ON";
+                 log.Info("High threshold violated, sending 'ON' command");
+            }   
+            else
+                log.Info("Temp now below threshold, sending 'OFF' command");
+                
+            // create a message object to wrap the command and send as an array of bytes
+            var commandMessage = new Message(Encoding.ASCII.GetBytes(command));
+            
+            // send the command to the device
+            serviceClient.SendAsync(deviceID, commandMessage);
     
 10. The comments should be self explanatory, but essentially we create a connection to IoTHub via the ServiceClient object, we then parse the JSON to determine the target deviceID and what kind of message we need to send (on or off), and then create and send the message
 11. On your device, hold your fingers around the DHT22 temperature sensor and drive the temperature over 80.  You should see the appropriate debug output in the Azure Function log, you should see the command received in the console for the Raspberry PI, and the LED should come on and stay on.  Once done, release your finger and let the temperature drop back below 80 and you should see the opposite occur.
