@@ -86,7 +86,6 @@ A few notes about the connections
 
 That’s it for the connections.  If wired wrong, you can damage the DHT22 sensor, so at this point, before you fire up your RPI, feel free to call on the proctor(s) to double check your wiring.  You don’t want to ‘let the magic smoke out of the box’ 
 
- 
 #### Step 2 - Connected to and powering your RPI
 >NOTE:  this lab was written assuming your network policy do not allow them to use SSH on their network.  The RPI connect to the network using wireless, and use the console cable to connect from their laptop to their RPI.  If you are on a network where you can SSH into the RPI directly, you can skip this section.
 
@@ -121,7 +120,6 @@ Before we can connect the device to the Azure RM-PCS, we need to let the solutio
 5.	Click Create
 6.	Your device is now added to the RM-PCS.  Copy the three parameters displayed on this page, Device ID, IoTHub Hostname, and Device Key.  Paste them into notepad, as we will need them in the next step
 7.	Click Done.  On the Devices screen, note that your device is in a “pending” state.  That essentially means that the solution knows about your device and is ready for it, but has not yet “heard from” that device.  We will remedy that in the next section
- 
 
 #### Step 4 - Posting Telemetry data to Azure 
 The code to read from your DHT22 sensor and post to Azure has been provided as part of this lab.  Now that we have our keys, strings, etc, we’ll need to download it, modify it for your specific RM-PCS solution details, run it, and test it.  Follow the steps below to get started
@@ -161,7 +159,7 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 10. Execute the script   (‘python lab2.py’ from the command prompt)
 11. You should see the DeviceInfo string echo’ed to the screen and sent to the IoTHub, and then every 3 seconds, you should see the temperature and humidity (in a JSON string) sent to the IoTHub.  The LED should also briefly flash to indicate we are sending data
 12. Congratulations, you’ve connected a physical IoT device to the Azure IoT RM-PCS.  Next we can look at the telemetry, as well as test manually sending a command to the device from the portal, which we will do in the next step
- 
+
 #### Step 5 -  Posting Telemetry data to Azure 
 
 Now we can take a look at the RM-PCS portal and make sure everything is working before we move on to the next lab.
@@ -186,9 +184,7 @@ Now we can take a look at the RM-PCS portal and make sure everything is working 
 
 Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In the next couple of labs, we’ll do some processing of the telemetry data looking for high temperature “alarms” and responding to them.
 
-
 #### Appendix A – Configuring your Raspberry PI 
-
 
 1.	Setup Wireless (don’t need to do this if your PI is already connected to the internet)
  
