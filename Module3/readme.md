@@ -63,11 +63,15 @@ In this section we’ll define the input to the Azure Stream Analytics job.  Thi
 
 #### Step 4 - Defining the Stream Analytics Output
 In this section, we will go back to our Azure Stream Analytics (ASA) job and ‘wire up’ the EventHub created in Step 3 as the output of our job
+
 1.	In the Azure Portal, on the left hand nav, click on “Stream Analytics Jobs” and then open the job you created above
+
 2.	On the blade for your ASA job, click “Outputs” and then click “+ Add” to add an output
+
 3.	On the “New Output” blade, give your output a name (if you use ‘eventhubout’, you won’t need to edit the query in the next step).  Choose “EventHub” as the type of Sink.  Choose “use event hub from the current subscription”.  Choose the Service Bus Namespace and Event Hub Name created above.  The rest of the fields should auto-fill. 
  
 4.	Accept the rest of the defaults and hit ‘Create’.  Wait until the output is created to move to the next step.
+
 5.	Now that we have wired up an IotHub as an input, and EventHub queue as an Output, we are now ready to specify our query to identify the Alerts we are looking for.
 
 #### Step 5 - Writing the Streaming Query
