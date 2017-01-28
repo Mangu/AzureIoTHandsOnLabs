@@ -61,6 +61,7 @@ In this section we’ll define the input to the Azure Stream Analytics job.  Thi
 ![Servce Bus Size](/images/m3EHPrice.png)
 
 7.	Hit the “create” button to create your EventHub.  You will see a pop-up that says “deployment started”, but it will go away.  Click on the little bell shaped icon to drop it back down and you can see the status.  Wait until the deployment is complete before starting the next step
+ 
  ![Namespace Deploying](/images/m3EHDeploying.png)
 
 8.	Now we need to add an EventHub to our namespace.  From the left-hand Nav, choose “Resource Groups”, then click on the resource group that was created for your solution in Lab 1, and choose the EventHub namespace you just created.
