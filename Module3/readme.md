@@ -33,6 +33,7 @@ In this section, you will create a new Stream Analytics Job and validate events 
 In this section we’ll define the input to the Azure Stream Analytics job.  This configuration binds to the IoTHub that was automatically created for you as part of your RM-PCS solution.
 
 1.	Under “Job Topology” click on “Inputs”
+
 ![Define Inputs](/images/m3Input.png) 
 
 2. You’ll be presented a blank list of inputs.  Click the Add button
