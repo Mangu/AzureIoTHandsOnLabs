@@ -21,10 +21,14 @@ In this section, you will create a new Stream Analytics Job and validate events 
 2. Create a new Stream Analytics Job from the portal navigation using + New -> Internet of Things -> Stream Analytics Job
 
 ![Add Stream Analytics](/images/m3AddASA.png) 
+
 3. You’ll be presented with the create pane for Azure Stream Analytics.  For the Job Name field, enter a name for your job that you can remember.  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  Make sure that the “location” is the same as chosen in Lab 1 (e.g. “East US”, most likely).  Click on the “Create” button
+
 ![Job Name](/images/m3JobName.png)
+
 4. You will be presented with a progress indicator while the job is creating 
 5. Upon completion you’ll be presented the main blade for your stream analytics job
+
 ![Completion](/images/m3Completion.png)
  
 #### Step 2 - Defining the Input
