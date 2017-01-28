@@ -70,6 +70,7 @@ In this section we’ll define the input to the Azure Stream Analytics job.  Thi
 
 9.	Click “Add EventHub”
 10. For the EventHub name, use the same name as your namespace, just append ‘eh’ on the end of it (technically you can name it anything you want, but this makes it easier for the lab)
+
 ![Naming EventHub](/images/m3EHNaming.png)
 
 11. Take the defaults for all other settings and click “Create”
