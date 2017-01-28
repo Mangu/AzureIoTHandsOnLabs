@@ -94,6 +94,7 @@ In this section you will write a streaming query that defines how you identify H
 ![Stream Analytics Output](/images/m3ASAOut.png) 
 
 2. You’ll now be presented a basic starting point for a query.
+
 ![Stream Analytics Query](/images/m3ASAQuery.png) 
 
 3. For our query, we will be looking for cases where the temperature data flowing from the device transitions from a LOW to a HIGH state, or back.  We will use this in the next step to send a command to the device to toggle a “high temp warning” LED on and off.  The following query will provide this capability to us.
