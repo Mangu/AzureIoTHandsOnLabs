@@ -1,3 +1,5 @@
+## Azure Functions
+
 ### Introduction
 This lab is focused on configuring an Azure Function to respond to the identification of a high temperature alert, and send a command to the alerting device to allow it to respond to the alert (in this case, by lighting an LED).  An alert condition, in the context of this lab, is a high temperature violation of a defined temperature threshold. This lab is the fourth in a series that walks through building an end-to-end Internet of Things prototype for doing temperature monitoring.
 
