@@ -15,33 +15,27 @@ At the end of this lab you will have written the Azure Function to pull the Aler
 An Azure Function App is a container for one or more Azure Functions.  It sets, among other things, the scalability settings and pricing plans.
 
 1. Using a web browser navigate to portal.azure.com
-
 ![](/images/m41.2.png)
 
-2. Create a new Azure Function App from the portal navigation using + New -> Web + Mobile -> Function App.
- 
-3. You’ll be presented with the create pane for a Function App.  For the App Name field, enter a name for your app (just adding “-FuncApp” to the end of your solution name works well).  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  For the App Service Plan, there should be an existing one that has the name of your solution plus “-JobsPlan” on the end.  We can use that one for the lab.  For storage account, you can use the Azure Storage Account created for the RM-PCS solution.  Choose that.  Click Create
+2. Create a new Azure Function App from the portal navigation using + New -> Web + Mobile -> Function App. 
 
+3. You’ll be presented with the create pane for a Function App.  For the App Name field, enter a name for your app (just adding “-FuncApp” to the end of your solution name works well).  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  For the App Service Plan, there should be an existing one that has the name of your solution plus “-JobsPlan” on the end.  We can use that one for the lab.  For storage account, you can use the Azure Storage Account created for the RM-PCS solution.  Choose that.  Click Create
 ![](/images/m41.3.png)
  
 4. Upon completion you’ll be presented the main blade for your Azure Function App.  From here we can create a new Azure Function.
-
 ![](/images/m41.4.png)
  
 5. But before we do, we need to go snag a connection string for our EventHub.  In the Azure Portal, on the left nav, click on All Resources, then scroll down and find the EventHub you created as the output in Lab 3.  Click on it to open up the blade for it.  On that blade, in the “entities” section, expand the “event hubs” section and click on your EventHub you created earlier.   On the blade for your eventhub, click on Shared Access Policies
- 
 ![](/images/m41.5.png)
 
 6. Click “Add” to add a shared access policy.  Give it a name (any name) and check “Listen”
-   
 ![](/images/m41.6.png)
 
 7. Once created, click on the access policy you just created, copy the “Connection String – Primary Key” and paste it into notepad or similar editor.
-
 ![](/images/m41.7.png) 
 
 8. In Notepad, delete the section on the end that begins with “EntityPath” (including the ‘;’ in front of it) as shown highlighted below
- 
+
 ![](/images/m41.8.png)
 
 9. After deletion, your connection string should look like the screen shot below (obviously, your name and actual key will be different)
