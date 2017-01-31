@@ -21,8 +21,7 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 
 3. You’ll be presented with the create pane for a Function App.  For the App Name field, enter a name for your app (just adding “-FuncApp” to the end of your solution name works well).  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  For the App Service Plan, there should be an existing one that has the name of your solution plus “-JobsPlan” on the end.  We can use that one for the lab.  For storage account, you can use the Azure Storage Account created for the RM-PCS solution.  Choose that.  Click Create
 
-![](/images/m41.3.png)
- 
+![](/images/m41.3.png) 
 4. Upon completion you’ll be presented the main blade for your Azure Function App.  From here we can create a new Azure Function.
 ![](/images/m41.4.png)
  
