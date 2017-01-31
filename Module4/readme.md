@@ -35,26 +35,21 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 ![](/images/m41.7.png) 
 
 8. In Notepad, delete the section on the end that begins with “EntityPath” (including the ‘;’ in front of it) as shown highlighted below
-
 ![](/images/m41.8.png)
 
 9. After deletion, your connection string should look like the screen shot below (obviously, your name and actual key will be different)
-
 ![](/images/m41.9.png)
  
 10. Leave notepad open, as we’ll need the connection string in a few steps
 11. In the Azure Portal, click on All Resources in the left hand nav, search for your Function App, and re-open it
 12. Click “New Function”.  We want to ‘trigger’ execution of our function off of messages landing in our EventHub, so choose “EventHubTrigger – C#”
-
 ![](/images/m41.12.png)
  
 13. At the bottom of the form, give your function a name.  Then type the name of your EventHub in the Event Hub name box
-
 ![](/images/m41.13.png)
  
 14. Under Event Hub connection, click ‘new’, then click “Add a connection string”
 15. Give your new connection string a name (any name).  In the connection string box, copy and paste the connection string you had previously saved in notepad
-
 ![](/images/m41.15.png)
  
 16. Back on the main form, choose Create to generate a template for your Azure Function
@@ -68,7 +63,6 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 18. This “Run” function will get invoked for each message that is dropped in the EventHub.  The actual message in the hub is passed in the “myEventHubMessage” string
 19. Beneath the Code box is the “Logs” box.  This box shows real-time logging from your Azure Function as it executes (and compiles, etc).  the “log.Info” call in our code is an example of how to log debug information to this log.  At this point, if our ASA job was running, and the temperature transitioned from low to high (or vice versa),we would see the JSON message produced by our ‘alerts’ ASA job written to the log (feel free to try it).  At this point, that’s all the function does.  In the next section, we will add functionality to parse this message and send a command to the device that generated the alert
 20. Below is an example of what the output looks like, at this point, if you hold your fingers over your DHT22 temperature sensor long enough to let the temperature go over 80, and then release it and let it fall back below
-
 ![](/images/m41.20.png)
  
 (“rpi-linux” is the Device ID of the raspberry pi used in development of this lab manual)
@@ -80,11 +74,9 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 To send commands to devices, we need to be able to connect to our IoTHub from our backend function.  In order to do so, we need to get a valid connection string to the IoTHub.
 
 1. In the Azure Portal, navigate to the IoTHub associated with your RM-PCS solution.  On the main IoTHub blade, click “shared access policies”
-
 ![](/images/m42.1.png)
  
 2. In the shared access policies screen, select “service”.  This is a policy and connection string that only has the permissions to connect to the backend services (i.e if it gets out, no devices can use it to connect).  From this screen, Copy the “Connection String – Primary Key” and paste into Notepad for later use
-
 ![](/images/m42.2.png)
  
 3. Now we are ready to write our Azure Function
@@ -96,13 +88,11 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
 
 1. The first step is to create a config file to hold our reference to the Azure IoTHub Service SDK (which is in the Microsoft.Azure.Devices namespace).  The name of our file should be project.json and it is located in the folder of our Azure Function
 2. In the “develop” tab of your Azure Function, click on “View Files” right below the code editing box
-
 ![](/images/m43.2.png)
  
 3. This displays the files associated with our function.  At this point, we have only two (function.json and run.csx)
 
 4. Click on the “+” to add a file, and name your file ‘project.json’
-
 ![](/images/m43.4.png)
  
 5. The project.json file will then be open in the editor.  Copy and paste the following into the file and hit save
@@ -117,7 +107,6 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
         }
 
 6. This tells the Azure Functions framework that we want to use version 1.0.15 of the Microsoft.Azure.Devices nuget package (the latest version).  The framework will download and install the package.  You should see information in the log window similar to the below which indicates that the package was successfully installed.
-
 ![](/images/m43.6.png)
  
 7.	Click back on the run.csx file (which is where our ‘code’ is) to bring back up the code in the editor.  (Feel free to click the “hide files” button below the editor at this point to reclaim screen real estate --- the rest of our work will be in run.csx)
