@@ -40,7 +40,6 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 
 ![](/images/m41.7.png) 
 
-
 8. In Notepad, delete the section on the end that begins with “EntityPath” (including the ‘;’ in front of it) as shown highlighted below
  
 ![](/images/m41.8.png)
