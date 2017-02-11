@@ -176,12 +176,19 @@ Now we can take a look at the RM-PCS portal and make sure everything is working 
 6. From the Select A Command box, you should see the two commands that we told the RM-PCS we support via the DeviceInfo message we sent from the device, “ON”, and “OFF”.
 
 7. Choose “ON” from the drop down and choose “Send Command”.  The LED on the device should light, and you should see this message appear in your RPI console
-8. 
-![Console](/images/m2Console.png) 
- 
+
+![Console](/images/m2Console.png)  
 
 8. Now select the “OFF” command from the drop down and send the command.  Observe the LED turn back off and the corresponding message in the RPI console
 
+        We used cloud to device messages (C2D) in steps 7 & 8. C2D are great for one way notifications to the device. 
+        The messages will stay in a queue until the device proccesses. The time to live of the message is configurable from 1-7 days.
+        If your application requires immidieate notification, Direct Methoids are recoomeded. We will cover Direct Methods in the Device Management Module.
+
+9. Stop lab2.py (Ctrl + X).  Choose “ON” from the drop down and choose “Send Command”.  Notice that the LED on the device does not turn on like it did step 7. This is expected.
+
+10. Execute the script   (‘python lab2.py’ from the command prompt). The LED on the device should light up without having to resend the command. 
+       
 Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In the next couple of labs, we’ll do some processing of the telemetry data looking for high temperature “alarms” and responding to them.
 
 #### Appendix A – Configuring your Raspberry PI 
