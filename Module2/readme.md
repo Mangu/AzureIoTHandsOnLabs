@@ -181,9 +181,9 @@ Now we can take a look at the RM-PCS portal and make sure everything is working 
 
 8. Now select the “OFF” command from the drop down and send the command.  Observe the LED turn back off and the corresponding message in the RPI console
 
-        We used cloud to device messages (C2D) in steps 7 & 8. C2D are great for one way notifications to the device. 
-        The messages will stay in a queue until the device proccesses. The time to live of the message is configurable from 1-7 days.
-        If your application requires immidieate notification, Direct Methoids are recoomeded. We will cover Direct Methods in the Device Management Module.
+We used cloud to device messages (C2D) in steps 7 & 8. C2D are great for one way notifications to the device. 
+With C2D, messages will stay in a queue until proccessesed by the device. The time to live of the message is configurable from 1-7 days.
+
 
 9. Stop lab2.py (Ctrl + X).  Choose “ON” from the drop down and choose “Send Command”.  Notice that the LED on the device does not turn on like it did step 7. This is expected.
 
