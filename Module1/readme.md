@@ -36,9 +36,28 @@ In this series of labs you will:
 9.	Once done, you should be able to click on the solution (click on the picture), and see the pop-out on the left like this one
 ![Confirmation](/images/m1Confirmation.png)
 
-Congratulations – you have successfully deployed the Azure IoT RM-PCS
+#### Step 2 – Enable dynamic map
 
-#### Step 2 – Review the solution portal
+By default, the RM-PCS comes with a static Bing map.  This is because there is a limit of two Bing Map Enterprise "Internal transaction level 1" keys (i.e. the free one) per Azure subscription and we don't want to assume you want to use it on this solution.  In our case for the lab, we will.  
+
+**Please note:  You only need one BME key per subscription.  If are you doing the lab with other students, and sharing an Azure subscription, only one person should do Steps 1 through 3 and should supply the key for other students to use in step 4.  If each student has their own subscription, then each student should generate their own key**
+The steps below show how to create a Bing Maps Enterprise (BME) key and apply it to your RM-PCS instance.
+
+1. Open the Azure Portal, scroll on the left nav bar until you find "Bing Maps API for Enterprise", then click the "+ Add" button
+2. Create a name for your BME API.  Anything will do (studentXX-map is a good practice).  For location, the only option is "West US".  Choose to use an existing Resource Group,and find the one associated with your RM-PCS.  For the pricing level, choose "Internal Website Transactions Level 1".  Click on and accept the legal agreement.  Click Create
+
+![Bing Maps Enterprise](/images/m1.bingmapsenterprise.jpg)
+3. Once the key is created, we need to go retrieve it.  Click on "All resources" on the left nav bar, find your BME API you just created and click on it.  Click on "Key Management", find the Query key, and copy it.  You will need it in step 4
+
+![BME Key](/images/m1.bingmapsenterprise-key.jpg)
+4. Now that we have our key, we need to apply it to the web portal.  Under "All Resources" (left nav), you should be able to find an "App Service" with the same name you gave your RM-PCS solution.  That will be the RM-PCS portal.  Click on it and then on "Application Settings".  Scroll down until you are in the "App Setting" section and find the setting for "MapApiQueryKey".  Edit that setting, paste in your key, and hit the save button at the top
+
+![BME - apply key](/images/m1.bingmapsenterprise-appsettings.jpg)
+5. Click on the Overview tab of the App Service and click "Restart"
+
+Congratulations – you have successfully deployed and updated the Azure IoT RM-PCS
+
+#### Step 3 – Review the solution portal
 1.	Navigate to http://<<solutionname>>.azurewebsites.net where solutionname = the name chosen for the solution in step 1.6.2
 2.	Log in with the same credentials used in above in step 1.2 above
 3.	Reviewing the solution:
@@ -48,6 +67,6 @@ Congratulations – you have successfully deployed the Azure IoT RM-PCS
     4.	Clicking “commands” shows a list of commands that the device supports
     5.	Feel free to click around the rest of the portal.  In the next lab, we will explore adding a physical device to this portal and display it’s telemetry on the portal
 
-Congratulations – you have completed Modele 1
+Congratulations – you have completed Module 1
 
 
