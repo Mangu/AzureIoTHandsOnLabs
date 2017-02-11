@@ -166,7 +166,7 @@ def iothub_client_sample_run():
 	#	in the portal, it also sends the list of commands that this
 	#	device supports, as well as it's latitude and longitude for
 	#	display on the map!
-	deviceInfoTxt = "{\"ObjectType\":\"DeviceInfo\", \"Version\":\"1.0\", \"IsSimulatedDevice\":false, \"DeviceProperties\":{\"DeviceID\":\"%s\", \"HubEnabledState\":true, \"Latitude\":%.6f, \"Longitude\":%.6f}, \"Commands\":[{ \"Name\":\"ON\", \"Parameters\":null},{ \"Name\":\"OFF\", \"Parameters\":null}]}"
+	deviceInfoTxt = "{\"ObjectType\":\"DeviceInfo\", \"Version\":\"1.0\", \"IsSimulatedDevice\":false, \"DeviceProperties\":{\"DeviceID\":\"%s\", \"HubEnabledState\":true, \"Latitude\":%.6f, \"Longitude\":%.6f}, \"Commands\":[{ \"Name\":\"ON\", \"Parameters\":[]},{ \"Name\":\"OFF\", \"Parameters\":[]}]}"
 	deviceInfoTxt = deviceInfoTxt % (deviceID, latitude, longitude)	
 
 	print("Sending Device Info Message: %s" % deviceInfoTxt)
