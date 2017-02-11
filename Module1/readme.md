@@ -54,7 +54,7 @@ The steps below show how to create a Bing Maps Enterprise (BME) key and apply it
 
  4. Now that we have our key, we need to apply it to the web portal.  Under "All Resources" (left nav), you should be able to find an "App Service" with the same name you gave your RM-PCS solution.  That will be the RM-PCS portal.  Click on it and then on "Application Settings".  Scroll down until you are in the "App Setting" section and find the setting for "MapApiQueryKey".  Edit that setting, paste in your key, and hit the save button at the top
 
-![BME - apply key](/images/m1.m1.bingmapsenterprise-appsettings.jpg)
+![BME - apply key](/images/m1.bingmapsenterprise-appsettings.jpg)
 
  5. Click on the Overview tab of the App Service and click "Restart"
 
