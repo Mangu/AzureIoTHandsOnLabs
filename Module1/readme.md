@@ -47,16 +47,13 @@ The steps below show how to create a Bing Maps Enterprise (BME) key and apply it
 2. Create a name for your BME API.  Anything will do (studentXX-map is a good practice).  For location, the only option is "West US".  Choose to use an existing Resource Group,and find the one associated with your RM-PCS.  For the pricing level, choose "Internal Website Transactions Level 1".  Click on and accept the legal agreement.  Click Create
 
 ![Bing Maps Enterprise](/images/m1.bingmapsenterprise.jpg)
-
 3. Once the key is created, we need to go retrieve it.  Click on "All resources" on the left nav bar, find your BME API you just created and click on it.  Click on "Key Management", find the Query key, and copy it.  You will need it in step 4
 
 ![BME Key](/images/m1.bingmapsenterprise-key.jpg)
-
- 4. Now that we have our key, we need to apply it to the web portal.  Under "All Resources" (left nav), you should be able to find an "App Service" with the same name you gave your RM-PCS solution.  That will be the RM-PCS portal.  Click on it and then on "Application Settings".  Scroll down until you are in the "App Setting" section and find the setting for "MapApiQueryKey".  Edit that setting, paste in your key, and hit the save button at the top
+4. Now that we have our key, we need to apply it to the web portal.  Under "All Resources" (left nav), you should be able to find an "App Service" with the same name you gave your RM-PCS solution.  That will be the RM-PCS portal.  Click on it and then on "Application Settings".  Scroll down until you are in the "App Setting" section and find the setting for "MapApiQueryKey".  Edit that setting, paste in your key, and hit the save button at the top
 
 ![BME - apply key](/images/m1.bingmapsenterprise-appsettings.jpg)
-
- 5. Click on the Overview tab of the App Service and click "Restart"
+5. Click on the Overview tab of the App Service and click "Restart"
 
 Congratulations – you have successfully deployed and updated the Azure IoT RM-PCS
 
