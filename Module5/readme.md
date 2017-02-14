@@ -85,16 +85,16 @@ You use device twin to maintain a copy of the state of the device in in the clou
 ### Step 2 - Use device twin to change the frequency of the data collection
 
 1. Connect to IoT Hub via Device Explore. Enter your connection string using the iothubowner policy. Hit update
-![Device Explorer](/images/m52.1.png)  
+![Device Explorer](/images/m52.1.PNG)  
 2. Click on the **Management** tab, select your device from the list and then click on **Twin Props**.
-![Device Explorer](/images/m52.2.png)  
+![Device Explorer](/images/m52.2.PNG)  
 2. Add a desired property "frequency" with value of "1"
-![Device Explorer](/images/m52.3.png)  
+![Device Explorer](/images/m52.3.PNG)  
 
 ### Step 3 - Use direct method to change turn the LED On and Off
 
 1. Using Device Explorer again, click on the **Call Method on Device** tab
 2. Change the Method name to LEDOn or LEDOff and click on Call Method. Everything should work just as in lab 2.
-![Device Explorer](/images/m53.2.png)  
+![Device Explorer](/images/m53.2.PNG)  
 3. Unlike cloud to device commands, direct methods will immidialty return a response. On your putty session, stop the script and repeat step 3.2. You should get an error like this:
-![Device Explorer](/images/m53.3.png)  
+![Device Explorer](/images/m53.3.PNG)  
