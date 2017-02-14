@@ -17,11 +17,13 @@ It has also been tested and used on these platforms:
  
 
 In this series of labs, you will:
-1.	Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
-2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
-3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
-4.	Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
-    At the end of this lab you will have a physical IoT device connected to Wifi, sending telemetry data to Azure IoT, and listening to and responding to commands from Azure.
+
+1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
+2. Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
+3. Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
+4. Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
+    
+At the end of this lab you will have a physical IoT device connected to Wifi, sending telemetry data to Azure IoT, and listening to and responding to commands from Azure.
 
 #### Step 1 - Environment and device setup
 In this section, we will get our desktops talking to our Raspberry Pi’s (RPI), login, and make sure they are connected to the network.  Once done, we will make the physical connections between our Pi’s and the DHT22 temperature and humidity sensor, and an LED to represent a “high temperature alarm”.
