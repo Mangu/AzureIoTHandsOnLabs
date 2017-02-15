@@ -1,7 +1,7 @@
 ## Azure IoT Hub Device Management
 
 ### Introduction
-In this lab we will focus on two new device management capabilities of IoT Hub, device twin and direct method. We will build on lab 2 and use direct methods and an aternative to cloud to device commnads as well a device twin to change the configuration of the device application.
+In this lab we will focus on two new device management capabilities of IoT Hub; device twin and direct method. We will build on lab 2 and use direct methods and an aternative to cloud to device commnads as well a device twin to change the configuration of the device application.
 
 You use a direct method to initiate device management actions (such as reboot, factory reset, and firmware update) from a back-end app in the cloud. The device is responsible for:
 
@@ -9,7 +9,7 @@ You use a direct method to initiate device management actions (such as reboot, f
 2. Initiating the corresponding device specific action on the device.
 3. Providing status updates through the reported properties to IoT Hub.
 
-You use device twin to maintain a copy of the state of the device in in the cloud. Device twin provides 3 types of properties
+You use device twin to maintain a copy of the state of the device in the cloud. Device twin provides 3 types of properties
 
 1. **Tags**. A JSON document read and written by the solution back end. Tags are not visible to device apps.
 2. **Desired properties**. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
@@ -17,16 +17,16 @@ You use device twin to maintain a copy of the state of the device in in the clou
 
 ### Step 1 - Add device direct methods and device twin
 
-1. Back to your putty session, CD to *Module5* and open lab5.py 
+1. Back in the putty session, CD to *Module5* and open lab5.py 
 
         cd -
         cd Module5
         nano lab5.py
 
-2. We made several modifications the the code from lab 2. Here is what we added
+2. We maded several modifications the the code from lab 2. Here is what we added"
 
     1. Imported the json module so we can parse our device twin data
-    2. Added several global variables to support our new code
+    2. Added several global variables to support our the code
     3. Changed the protocal to MQTT. Device management features are currently only supported via MQTT
     
             protocol = IoTHubTransportProvider.MQTT
