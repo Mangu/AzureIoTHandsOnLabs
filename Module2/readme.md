@@ -130,7 +130,7 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 2.	To download the code, enter these commands on the RPI
 
         cd ~
-        git clone –recursive https://github.com/mangu/AzureIoTHandsOnLabs
+        git clone --recursive https://github.com/mangu/AzureIoTHandsOnLabs
         cd AzureIoTHandsOnLabs/Lab2
         
 3.	The code is downloaded, now we need to put the details for your specific device, RM-PCS, and (just for fun), location
@@ -230,9 +230,9 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
         cd ~
          
-        git clone –recursive https://github.com/Azure/azure-iot-sdks.git
+        git clone –recursive https://github.com/Azure/azure-iot-sdk-python.git
         
-        cd azure-iot-sdks/python/build_all/linux
+        cd azure-iot-sdk-python/build_all/linux
         
         ./setup.sh
         

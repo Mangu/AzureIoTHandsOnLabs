@@ -23,11 +23,11 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
         cd Module5
         nano lab5.py
 
-2. We maded several modifications the the code from lab 2. Here is what we added"
+2. We maded several modifications to the code from lab 2. Here is what we added"
 
     1. Imported the json module so we can parse our device twin data
-    2. Added several global variables to support our the code
-    3. Changed the protocal to MQTT. Device management features are currently only supported via MQTT
+    2. Added several global variables to support our new code
+    3. Changed the protocol to MQTT. Device management features are currently only supported via MQTT
     
             protocol = IoTHubTransportProvider.MQTT
 
@@ -72,12 +72,12 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
                 iotHubClient.set_device_twin_callback(device_twin_callback, TWIN_CONTEXT)
                 iotHubClient.set_device_method_callback(device_method_callback, METHOD_CONTEXT)
 
-    6. Modify the conntection information as you did in lab 2
+    6. Modify the connection information as you did in lab 2
             
             deviceID = ""
             deviceKey = ""
             iotHubHostName = "<yourhub>.azure-devices.net"  
-    7. Exit nano by Ctrl+X then Y then enter
+    7. Exit nano - Ctrl+X then Y then enter
     8. Run the lab5.py script
    
             python lab5.py
@@ -96,5 +96,5 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 1. Using Device Explorer again, click on the **Call Method on Device** tab
 2. Change the Method name to LEDOn or LEDOff and click on Call Method. Everything should work just as in lab 2.
 ![Device Explorer](/images/m53.2.PNG)  
-3. Unlike cloud to device commands, direct methods will immidialty return a response. On your putty session, stop the script and repeat step 3.2. You should get an error like this:
+3. Unlike cloud to device commands, direct methods will immidialty return a response. End your putty session, stop the script and repeat step 3.2. You should get an error like this:
 ![Device Explorer](/images/m53.3.PNG)  
