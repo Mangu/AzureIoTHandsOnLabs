@@ -220,7 +220,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
  
         cd ~
          
-        git clone –recursive https://github.com/adafruit/Adafruit_Python_DHT.git
+        git clone –-recursive https://github.com/adafruit/Adafruit_Python_DHT.git
          
         cd Adafruit_Python_DHT 
          
@@ -230,7 +230,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
         cd ~
          
-        git clone –recursive https://github.com/Azure/azure-iot-sdk-python.git
+        git clone –-recursive https://github.com/Azure/azure-iot-sdk-python.git
         
         cd azure-iot-sdk-python/build_all/linux
         
@@ -240,7 +240,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
         
     * To build with python 3.4 or 3.5, run (either or)
         
-            ./build.sh --build-python 3.4  
+            ./setup.sh --build-python 3.4  
             ./build.sh --build-python 3.5 
 
 
