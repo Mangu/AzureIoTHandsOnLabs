@@ -30,11 +30,11 @@ In this section, we will get our desktops talking to our Raspberry Pi’s (RPI),
 Several things have already been pre-setup for you on the RPI’s provided for this lab
 *	Raspbian Jesse, a version of Debian Linux has been pre-installed
 *	Serial communication has already been enabled (so you can ‘console’ into them over a serial connection)
-*	They have been pre-connected to J&J’s guest wireless
-*	The Azure IoT SDK has already been downloaded from github   ( https://github.com/Azure/azure-iot-sdks  if you want to     check them out yourself)
-*	Python drivers for the DHT22 sensor have been preinstalled   (https://github.com/adafruit/Adafruit_Python_DHT)
+*	They have been pre-connected to guest wireless
+*	The Azure IoT SDK has already been downloaded from github  
+*	Python drivers for the DHT22 sensor have been preinstalled  
 
-If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you), the process for setting up the RPI for the lab is in Appendix A
+If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you), the process for setting up the RPI for the lab is in **Appendix A**
 
 For the lab, we’ll first wire up the RPI before we power it on and connect to it.  Like with most electronics, it’s always safer to do any wiring with the device powered off.  If your RPI is powered on, remove the power at this point.
 
@@ -130,8 +130,8 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 2.	To download the code, enter these commands on the RPI
 
         cd ~
-        git clone --recursive https://github.com/mangu/AzureIoTHandsOnLabs
-        cd AzureIoTHandsOnLabs/Lab2
+        git clone –recursive https://github.com/stevebus/IoTWorkshop
+        cd IoTWorkshop/Lab2
         
 3.	The code is downloaded, now we need to put the details for your specific device, RM-PCS, and (just for fun), location
 4.	edit the lab2.py script with your favorite linux editor.  If you don’t have one, use nano
@@ -220,7 +220,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
  
         cd ~
          
-        git clone –-recursive https://github.com/adafruit/Adafruit_Python_DHT.git
+        git clone –recursive https://github.com/adafruit/Adafruit_Python_DHT.git
          
         cd Adafruit_Python_DHT 
          
@@ -230,17 +230,17 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
         cd ~
          
-        git clone –-recursive https://github.com/Azure/azure-iot-sdk-python.git
+        git clone –recursive https://github.com/Azure/azure-iot-sdks.git
         
-        cd azure-iot-sdk-python/build_all/linux
+        cd azure-iot-sdks/python/build_all/linux
         
         ./setup.sh
         
-        ./build.sh
+        ./build.sh (this may not be needed as we are provided a pre compiled copy of the client sd)
         
     * To build with python 3.4 or 3.5, run (either or)
         
-            ./setup.sh --build-python 3.4  
+            ./build.sh --build-python 3.4  
             ./build.sh --build-python 3.5 
 
 
