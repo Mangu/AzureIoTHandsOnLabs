@@ -176,7 +176,7 @@ Now we can take a look at the RM-PCS portal and make sure everything is working 
 5. Choose your device from the list by clicking on it.  Once the Device Details pops out from the right hand side, choose “Commands” to go to the commands page.
 
 6. From the Select A Command box, you should see the two commands that we told the RM-PCS we support via the DeviceInfo message we sent from the device, “ON”, and “OFF”.
-
+-
 7. Choose “ON” from the drop down and choose “Send Command”.  The LED on the device should light, and you should see this message appear in your RPI console
 ![Console](/images/m2Console.png)  
 8. Now select the “OFF” command from the drop down and send the command.  Observe the LED turn back off and the corresponding message in the RPI console
@@ -185,7 +185,6 @@ We used cloud to device messages (C2D) in steps 7 & 8. C2D are great for one way
 With C2D, messages will stay in a queue until proccessesed by the device. The time to live of the message is configurable from 1-7 days.
 
 9. Stop lab2.py (Ctrl + X).  Choose “ON” from the drop down and choose “Send Command”.  Notice that the LED on the device does not turn on like it did step 7. This is expected.
-
 10. Execute the script   (‘python lab2.py’ from the command prompt). The LED on the device should light up without having to resend the command. 
        
 Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In the next couple of labs, we’ll do some processing of the telemetry data looking for high temperature “alarms” and responding to them.
@@ -195,7 +194,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 1.	Setup Wireless (don’t need to do this if your PI is already connected to the internet)
  
     * Open the wpa-supplicant configuration file in nano
-     
+b     
             sudo nano /etc/wpa_supplicant/wpa_supplicant.conf 
      
     * Go to the bottom of the file and add the following
@@ -230,9 +229,9 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
         cd ~
          
-        git clone –recursive https://github.com/Azure/azure-iot-sdks.git
+        git clone –recursive https://github.com/Azure/azure-iot-sdk-python.git
         
-        cd azure-iot-sdks/python/build_all/linux
+        cd azure-iot-sdk-python/python/build_all/linux
         
         ./setup.sh
         
