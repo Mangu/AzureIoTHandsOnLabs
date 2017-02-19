@@ -7,7 +7,7 @@ In this lab, we will create an instance of the Azure IoT Remote Monitoring pre-c
 
 The Azure IoT RM-PCS is a sample, or reference, IoT implementation that demonstrates how to build a starter solution that allows you to hook up a device, store and display meta-data about that device, ingest device data, apply some simple alerting rules, and visualize the device data.
 In this series of labs you will:
-
+[
 1.	Create and navigate the Azure IoT Remote Monitoring Pre-configured Solution (RM-PCS)
 2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
 3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
@@ -58,7 +58,7 @@ The steps below show how to create a Bing Maps Enterprise (BME) key and apply it
 Congratulations – you have successfully deployed and updated the Azure IoT RM-PCS
 
 #### Step 3 – Review the solution portal
-1.	Navigate to http://<<solutionname>>.azurewebsites.net where solutionname = the name chosen for the solution in step 1.6.2
+1.	Navigate to http://\[solutionname\].azurewebsites.net where solutionname = the name chosen for the solution in step 1.6.2
 2.	Log in with the same credentials used in above in step 1.2 above
 3.	Reviewing the solution:
     1.	The home page shows you a map that includes four “sample” devices that are deployed with the solution
