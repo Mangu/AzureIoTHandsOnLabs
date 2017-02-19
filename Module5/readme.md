@@ -29,7 +29,7 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
     2. Added several global variables to support our new code
     3. Changed the protocol to MQTT. Device management features are currently only supported via MQTT
     
-            protocol = IoTHubTransportProvider.MQTT
+e            protocol = IoTHubTransportProvider.MQTT
 
     4. Added methods to support the new functionality 
 
@@ -40,7 +40,6 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
                 print "Total calls confirmed: %d\n" % METHOD_CALLBACKS
 
                 getattr(sys.modules[__name__], method_name)(35)
-
                 device_method_return_value = DeviceMethodReturnValue()
                 device_method_return_value.response = "{ \"Response\": \"This is the response from the device\" }"
                 device_method_return_value.status = 200
@@ -96,5 +95,5 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 1. Using Device Explorer again, click on the **Call Method on Device** tab
 2. Change the Method name to LEDOn or LEDOff and click on Call Method. Everything should work just as in lab 2.
 ![Device Explorer](/images/m53.2.PNG)  
-3. Unlike cloud to device commands, direct methods will immidialty return a response. End your putty session, stop the script and repeat step 3.2. You should get an error like this:
+3. Unlike cloud to device commands, direct methods will immediately return a response. End your putty session, stop the script and repeat step 3.2. You should get an error like this:
 ![Device Explorer](/images/m53.3.PNG)  
