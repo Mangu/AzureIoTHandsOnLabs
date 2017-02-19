@@ -7,7 +7,7 @@ In this lab, we will create an instance of the Azure IoT Remote Monitoring pre-c
 
 The Azure IoT RM-PCS is a sample, or reference, IoT implementation that demonstrates how to build a starter solution that allows you to hook up a device, store and display meta-data about that device, ingest device data, apply some simple alerting rules, and visualize the device data.
 In this series of labs you will:
-[
+
 1.	Create and navigate the Azure IoT Remote Monitoring Pre-configured Solution (RM-PCS)
 2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
 3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
