@@ -45,6 +45,7 @@ message_timeout = 10000
 receive_callbacks = 0
 send_callbacks = 0
 receive_context = 0
+
 TWIN_CALLBACKS = 0
 METHOD_CALLBACKS = 0
 TWIN_CONTEXT = 0
@@ -88,11 +89,15 @@ def blinkLED(pin):
 
 # manually turn the LED on
 def LEDOn(pin):
+	global highTemp
+	highTemp = True
 	GPIO.output(pin, GPIO.HIGH)
 	return
 
 # manually turn the LED off
 def LEDOff(pin):
+	global highTemp
+	highTemp = False
 	GPIO.output(pin, GPIO.LOW)
 	return
 
