@@ -193,8 +193,7 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
 1.	Setup Wireless (don’t need to do this if your PI is already connected to the internet)
  
-    * Open the wpa-supplicant configuration file in nano
-b     
+    * Open the wpa-supplicant configuration file in nanob     
             sudo nano /etc/wpa_supplicant/wpa_supplicant.conf 
      
     * Go to the bottom of the file and add the following
@@ -231,7 +230,7 @@ b
          
         git clone –recursive https://github.com/Azure/azure-iot-sdk-python.git
         
-        cd azure-iot-sdk-python/python/build_all/linux
+        cd azure-iot-sdk-python/build_all/linux
         
         ./setup.sh
         
