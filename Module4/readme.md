@@ -17,7 +17,7 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 1. Using a web browser navigate to portal.azure.com
 ![](/images/m41.2.png)
 
-2. Create a new Azure Function App from the portal navigation using + New -> Web + Mobile -> Function App. 
+2. Create a new Azure Function App from the portal navigation using + New -> Compute -> Function App. 
 
 3. You’ll be presented with the create pane for a Function App.  For the App Name field, enter a name for your app (just adding “-FuncApp” to the end of your solution name works well).  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  For the App Service Plan, there should be an existing one that has the name of your solution plus “-JobsPlan” on the end.  We can use that one for the lab.  For storage account, you can use the Azure Storage Account created for the RM-PCS solution.  Choose that.  Click Create
 
@@ -134,7 +134,7 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
             
             // if low, turn off, otherwise turn on
             string command = "OFF";
-            if(alertTempState == "OVER")
+            if(alertTempState == "HIGH")
             {
                  command = "ON";
                  log.Info("High threshold violated, sending 'ON' command");
