@@ -17,22 +17,24 @@ It has also been tested and used on these platforms:
  
 
 In this series of labs, you will:
-1.	Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
-2.	Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
-3.	Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
-4.	Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
-    At the end of this lab you will have a physical IoT device connected to Wifi, sending telemetry data to Azure IoT, and listening to and responding to commands from Azure.
+
+1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
+2. Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
+3. Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
+4. Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
+    
+At the end of this lab you will have a physical IoT device connected to Wifi, sending telemetry data to Azure IoT, and listening to and responding to commands from Azure.
 
 #### Step 1 - Environment and device setup
 In this section, we will get our desktops talking to our Raspberry Pi’s (RPI), login, and make sure they are connected to the network.  Once done, we will make the physical connections between our Pi’s and the DHT22 temperature and humidity sensor, and an LED to represent a “high temperature alarm”.
-Several things have already been pre-setup for you on the RPI’s provided for this lab
+Several things \*may\* have already been pre-setup for you on the RPI’s provided for this lab
 *	Raspbian Jesse, a version of Debian Linux has been pre-installed
 *	Serial communication has already been enabled (so you can ‘console’ into them over a serial connection)
-*	They have been pre-connected to J&J’s guest wireless
-*	The Azure IoT SDK has already been downloaded from github   ( https://github.com/Azure/azure-iot-sdks  if you want to     check them out yourself)
-*	Python drivers for the DHT22 sensor have been preinstalled   (https://github.com/adafruit/Adafruit_Python_DHT)
+*	They have been pre-connected to guest wireless
+*	The Azure IoT SDK has already been downloaded from github  
+*	Python drivers for the DHT22 sensor have been preinstalled  
 
-If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you), the process for setting up the RPI for the lab is in Appendix A
+If you get this lab manual outside of the workshop delivery for which it was developed (meaning none of this stuff has been done for you), the process for setting up the RPI for the lab is in **Appendix A**
 
 For the lab, we’ll first wire up the RPI before we power it on and connect to it.  Like with most electronics, it’s always safer to do any wiring with the device powered off.  If your RPI is powered on, remove the power at this point.
 
@@ -93,7 +95,7 @@ At this point, we are almost ready to power up our RPI.  Before we do, let’s c
 
 While our RPI will connect over Wifi to the Internet (and Azure), and our laptops will also connect over Wifi to the Internet on the same network, corporate policy will not allow you to SSH from your laptop to the RPI directly.  So, we must connect over serial console with the USB/TTL cable.
 
-To use the cable, we must install a driver, and do some configuration (and install a terminal client, in the case of Windows).
+To use the cable, we \*may\* need to install a driver (Windows boxes may auto-download), and do some configuration (and install a terminal client, in the case of Windows).
 
 To set up the connection, follow the instructions (with the caveats below) at https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable?view=all
 Caveats:
@@ -111,12 +113,12 @@ Congrats!  You and up and running and ready to talk to Azure!
 
 Before we can connect the device to the Azure RM-PCS, we need to let the solution know about the device (so we can authenticate).  
 
-1.	Navigate to your RM-PCS solution   (https://<solutionname>.azurewebsites.net)
+1.	Navigate to your RM-PCS solution   (https://\[solutionname\].azurewebsites.net)
 2.	On the bottom left corner, click the “Add a device” button
  
 3.	Click Add New under “Custom Device”
 4.	On the next screen, change the radio buttons to “let me define my own Device ID”, and pick a deviceID for your device
- ![Custome Device](/images/m2AddDevice.png) 
+ ![Custom Device](/images/m2AddDevice.png) 
 5.	Click Create
 6.	Your device is now added to the RM-PCS.  Copy the three parameters displayed on this page, Device ID, IoTHub Hostname, and Device Key.  Paste them into notepad, as we will need them in the next step
 7.	Click Done.  On the Devices screen, note that your device is in a “pending” state.  That essentially means that the solution knows about your device and is ready for it, but has not yet “heard from” that device.  We will remedy that in the next section
@@ -128,8 +130,8 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 2.	To download the code, enter these commands on the RPI
 
         cd ~
-        git clone –recursive https://github.com/stevebus/IoTWorkshop
-        cd IoTWorkshop/Lab2
+        git clone –recursive https://github.com/mangu/AzureIoTHandsOnLabs
+        cd AzureIoTHandsOnLabs/Module2
         
 3.	The code is downloaded, now we need to put the details for your specific device, RM-PCS, and (just for fun), location
 4.	edit the lab2.py script with your favorite linux editor.  If you don’t have one, use nano
@@ -164,7 +166,7 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 
 Now we can take a look at the RM-PCS portal and make sure everything is working before we move on to the next lab.
 
-1. Navigate to the RM-PCS portal for your solution (https://<solutionname>.azurewebsites.net)
+1. Navigate to the RM-PCS portal for your solution (https://\[solutionname\].azurewebsites.net)
 2. Look on the map and you should see your device.  You can either click on that device, or from the “Devices to View” drop down, you can select your device.  You should see the temperature and humidity displayed there, and it should match the data you see flowing from the RPI via your putty console
 
 3. Feel free to hold your fingers over the DHT22 sensor, or breath on it, to vary the temperature and humidity and watch the values change on the portal
@@ -174,22 +176,24 @@ Now we can take a look at the RM-PCS portal and make sure everything is working 
 5. Choose your device from the list by clicking on it.  Once the Device Details pops out from the right hand side, choose “Commands” to go to the commands page.
 
 6. From the Select A Command box, you should see the two commands that we told the RM-PCS we support via the DeviceInfo message we sent from the device, “ON”, and “OFF”.
-
+-
 7. Choose “ON” from the drop down and choose “Send Command”.  The LED on the device should light, and you should see this message appear in your RPI console
-8. 
-![Console](/images/m2Console.png) 
- 
-
+![Console](/images/m2Console.png)  
 8. Now select the “OFF” command from the drop down and send the command.  Observe the LED turn back off and the corresponding message in the RPI console
 
+We used cloud to device messages (C2D) in steps 7 & 8. C2D are great for one way notifications to the device. 
+With C2D, messages will stay in a queue until proccessesed by the device. The time to live of the message is configurable from 1-7 days.
+
+9. Stop lab2.py (Ctrl + X).  Choose “ON” from the drop down and choose “Send Command”.  Notice that the LED on the device does not turn on like it did step 7. This is expected.
+10. Execute the script   (‘python lab2.py’ from the command prompt). The LED on the device should light up without having to resend the command. 
+       
 Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In the next couple of labs, we’ll do some processing of the telemetry data looking for high temperature “alarms” and responding to them.
 
 #### Appendix A – Configuring your Raspberry PI 
 
 1.	Setup Wireless (don’t need to do this if your PI is already connected to the internet)
  
-    * Open the wpa-supplicant configuration file in nano
-     
+    * Open the wpa-supplicant configuration file in nanob     
             sudo nano /etc/wpa_supplicant/wpa_supplicant.conf 
      
     * Go to the bottom of the file and add the following
@@ -224,13 +228,13 @@ Congratulations!  You now have a physical IoT device talking to the RM-PCS.  In 
 
         cd ~
          
-        git clone –recursive https://github.com/Azure/azure-iot-sdks.git
+        git clone –recursive https://github.com/Azure/azure-iot-sdk-python.git
         
-        cd azure-iot-sdks/python/build_all/linux
+        cd azure-iot-sdk-python/build_all/linux
         
         ./setup.sh
         
-        ./build.sh
+        ./build.sh (this may not be needed as we are provided a pre compiled copy of the client sd)
         
     * To build with python 3.4 or 3.5, run (either or)
         

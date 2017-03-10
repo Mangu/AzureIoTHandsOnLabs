@@ -17,7 +17,7 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 1. Using a web browser navigate to portal.azure.com
 ![](/images/m41.2.png)
 
-2. Create a new Azure Function App from the portal navigation using + New -> Web + Mobile -> Function App. 
+2. Create a new Azure Function App from the portal navigation using + New -> Compute -> Function App. 
 
 3. You’ll be presented with the create pane for a Function App.  For the App Name field, enter a name for your app (just adding “-FuncApp” to the end of your solution name works well).  For “Resource Group”, choose “use existing”.  In the drop down list box, you should see a resource group named the same thing as your chosen solution name from lab 1.  Choose that.  For the App Service Plan, there should be an existing one that has the name of your solution plus “-JobsPlan” on the end.  We can use that one for the lab.  For storage account, you can use the Azure Storage Account created for the RM-PCS solution.  Choose that.  Click Create
 
@@ -61,6 +61,9 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
         }
 
 18. This “Run” function will get invoked for each message that is dropped in the EventHub.  The actual message in the hub is passed in the “myEventHubMessage” string
+
+NOTE:  optional - if you want to test the configuation of the solution at this point, you can return to your stream analytics job created in module 3 and "start" the job (this will take several minutes).  Once it's started, make sure your raspberry pi is sending messages, then you can 'heat up' the DHT sensor and see the output below as the temp transitions above and below 80 degrees.
+
 19. Beneath the Code box is the “Logs” box.  This box shows real-time logging from your Azure Function as it executes (and compiles, etc).  the “log.Info” call in our code is an example of how to log debug information to this log.  At this point, if our ASA job was running, and the temperature transitioned from low to high (or vice versa),we would see the JSON message produced by our ‘alerts’ ASA job written to the log (feel free to try it).  At this point, that’s all the function does.  In the next section, we will add functionality to parse this message and send a command to the device that generated the alert
 20. Below is an example of what the output looks like, at this point, if you hold your fingers over your DHT22 temperature sensor long enough to let the temperature go over 80, and then release it and let it fall back below
 ![](/images/m41.20.png)
@@ -68,7 +71,7 @@ An Azure Function App is a container for one or more Azure Functions.  It sets, 
 (“rpi-linux” is the Device ID of the raspberry pi used in development of this lab manual)
 
 
-21.) You now have the basic “wiring” set up to wire our Azure Function to the output of the EventHub queue that contains the temperature alerts.  Next we’ll work on developing our code to respond to those alerts
+21) You now have the basic “wiring” set up to wire our Azure Function to the output of the EventHub queue that contains the temperature alerts.  Next we’ll work on developing our code to respond to those alerts.  
 
 #### Step 2 - Retrieve IoTHub connection string
 To send commands to devices, we need to be able to connect to our IoTHub from our backend function.  In order to do so, we need to get a valid connection string to the IoTHub.
@@ -134,7 +137,7 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
             
             // if low, turn off, otherwise turn on
             string command = "OFF";
-            if(alertTempState == "OVER")
+            if(alertTempState == "HIGH")
             {
                  command = "ON";
                  log.Info("High threshold violated, sending 'ON' command");
@@ -148,6 +151,6 @@ To use the SDK, we need to ‘install’ it in our Function App and set a refere
             // send the command to the device
             serviceClient.SendAsync(deviceID, commandMessage);
     
-10. The comments should be self explanatory, but essentially we create a connection to IoTHub via the ServiceClient object, we then parse the JSON to determine the target deviceID and what kind of message we need to send (on or off), and then create and send the message
+10. The comments should be self explanatory, but essentially we create a connection to IoTHub via the ServiceClient object, we then parse the JSON to determine the target deviceID and what kind of message we need to send (on or off), and then create and send the message.  If you didn't start your stream analytics job earlier, start it now.
 11. On your device, hold your fingers around the DHT22 temperature sensor and drive the temperature over 80.  You should see the appropriate debug output in the Azure Function log, you should see the command received in the console for the Raspberry PI, and the LED should come on and stay on.  Once done, release your finger and let the temperature drop back below 80 and you should see the opposite occur.
 12. Congratulations – you’ve “round tripped” telemetry data from your device, through the RM-PCS (visualized in the portal), wrote a stream analytics job to look for high temperature alerts, and send a command back to the device to respond to that alert.

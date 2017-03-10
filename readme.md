@@ -2,7 +2,15 @@
 
 ### Overview
 
-### Prerequisites
+In this workshop you will:
+
+* Generate an instance of the Azure IoT Remote Monitoring solution
+* Connect a temperature/humidity sensor to a Raspberry PI running Linux
+* Used the Azure IoT Python SDK to connect the Pi to Azure IotHub
+    * Including the new device management features 
+* Used Azure Stream Analytics to look for “high temperature” alerts
+* Leveraged an Azure Function to send a command back to the alerting device
+
 
 ### Modules
 
@@ -11,7 +19,14 @@
 * [Module 3 - Azure Stream Analytics](Module3)
 * [Module 4 - Azure Functions](Module4)
 * [Module 5 - Device Management](Module5)
-* [Module 6 - Azure App Services](Module6)
+
+### Prerequisites
+
+* Install python 2.7 https://www.python.org/downloads/
+* Install the Device Explorer tool from https://github.com/Azure/azure-iot-sdks/releases/download/2016-11-17/SetupDeviceExplorer.msi
+* Install Putty (if on a Windows PC) - http://www.putty.org/ 
+* Install drivers for the USB to Serial cable (we provide the actual cable) - https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable?view=all 
+* Access to an Azure Subscription
 
 ### Useful Resources 
 

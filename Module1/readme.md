@@ -58,7 +58,7 @@ The steps below show how to create a Bing Maps Enterprise (BME) key and apply it
 Congratulations – you have successfully deployed and updated the Azure IoT RM-PCS
 
 #### Step 3 – Review the solution portal
-1.	Navigate to http://<<solutionname>>.azurewebsites.net where solutionname = the name chosen for the solution in step 1.6.2
+1.	Navigate to http://\[solutionname\].azurewebsites.net where solutionname = the name chosen for the solution in step 1.6.2
 2.	Log in with the same credentials used in above in step 1.2 above
 3.	Reviewing the solution:
     1.	The home page shows you a map that includes four “sample” devices that are deployed with the solution

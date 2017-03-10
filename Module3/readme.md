@@ -84,6 +84,7 @@ In this section, we will go back to our Azure Stream Analytics (ASA) job and ‘
 3.	On the “New Output” blade, give your output a name (if you use ‘eventhubout’, you won’t need to edit the query in the next step).  Choose “EventHub” as the type of Sink.  Choose “use event hub from the current subscription”.  Choose the Service Bus Namespace and Event Hub Name created above.  The rest of the fields should auto-fill. 
 ![Stream Analytics Outout](/images/m3ASAOutDefine.png)
 
+
 4.	Accept the rest of the defaults and hit ‘Create’.  Wait until the output is created to move to the next step.
 5.	Now that we have wired up an IotHub as an input, and EventHub queue as an Output, we are now ready to specify our query to identify the Alerts we are looking for.
 
@@ -119,6 +120,8 @@ In this section you will write a streaming query that defines how you identify H
                         Temperature is not NULL
                     AND
                         TRY_CAST( Temperature AS bigint) IS NOT NULL)
+                    AND
+                         DeviceId NOT LIKE 'Cool%')  -- filter out the 'sample' devices
                         
     This query takes the output of the subquery above and looks for cases in which the "temp state" in the current row is different than the "temp state" in the previous row (i.e. we've transitioned from 'high to low' or 'low to high').  
     
