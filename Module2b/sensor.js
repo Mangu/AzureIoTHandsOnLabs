@@ -2,7 +2,8 @@
 var net = require('net');
 
 var PIPE_NAME = "mypipe";
-var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
+//var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
+var PIPE_PATH = "/home/pi/AzureIoTHandsOnLabs/Module2b/" + PIPE_NAME;
 
 var L = console.log;
 

@@ -2,12 +2,14 @@ var net = require('net');
 var SerialPort = require('serialport');
 
 var PIPE_NAME = "mypipe";
-var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
+//var PIPE_PATH = "\\\\.\\pipe\\" + PIPE_NAME;
+var PIPE_PATH = "./" + PIPE_NAME;
 
 var x = 0;
 
 //portName = process.argv[2];
-portName = 'COM4';
+//portName = 'COM4';
+portName = '/dev/ttyUSB0';
 
 var myPort = new SerialPort(portName, {
 baudRate: 9600,
