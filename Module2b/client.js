@@ -38,6 +38,9 @@ client.on('end', function() {
 //}, 1000);
 
 function sendSerialData(data) {
-	client.write(data.toString());
+	if(data.length == 12) {
+		client.write(data.toString());
+	}
 	console.log(data);
+//	console.log(data.length);
 }
