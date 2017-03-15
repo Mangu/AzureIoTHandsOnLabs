@@ -14,7 +14,7 @@
             "loader": {
                 "name": "node",
                 "entrypoint": {
-                    "main.path": "../../../samples/nodejs_simple_sample/nodejs_modules/printer.js"
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/printer.js"
                 }
             },
             "args": null
@@ -24,7 +24,7 @@
             "loader": {
                 "name": "node",
                 "entrypoint": {
-                    "main.path": "../../../samples/nodejs_simple_sample/nodejs_modules/sensor.js"
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/sensor.js"
                 }
             },
             "args": null
@@ -34,11 +34,11 @@
             "loader": {
                 "name": "node",
                 "entrypoint": {
-                    "main.path": "../../../samples/nodejs_simple_sample/nodejs_modules/iothub_writer.js"
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/iothub_writer.js"
                 }
             },
             "args": {
-                "connection_string": "<IoT Hub device connection string>"
+                "connection_string": "HostName=sdbgatewaytest.azure-devices.net;DeviceId=gwtestdevice;SharedAccessKey=Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="
             }
         },
         {

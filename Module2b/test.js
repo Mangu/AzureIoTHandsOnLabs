@@ -1,7 +1,7 @@
 var SerialPort = require('serialport');
 
 //portName = process.argv[2];
-portName = 'COM4';
+portName = '/dev/ttyUSB0';
 
 var myPort = new SerialPort(portName, {
 baudRate: 9600,
