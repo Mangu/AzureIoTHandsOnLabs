@@ -40,7 +40,7 @@
             "args": {"deviceID":  "gwtestdevice", "deviceKey":"Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="}
         },
 	{
-	      "name": "iothub_writer",
+	      "name": "iothub",
 	      "loader": {
 	        "name" : "native",
 	        "entrypoint" : {
@@ -77,7 +77,7 @@
         },
         {
             "source": "node_formatter",
-            "sink": "iothub_writer"
+            "sink": "iothub"
         },
         {
             "source": "node_formatter",

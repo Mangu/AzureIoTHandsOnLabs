@@ -31,18 +31,23 @@ module.exports = {
 	
         //  message format is aa.bb,cc.dd\n
         // where aa.bb is Humidity to two decimal places and cc.dd is Temperature to two decimal places
-        var splitString = message.toString().split('\r')[0].split(",");
+
+//	console.log('formatter.receive: ', Buffer.from(message.content).toString());
+
+        var splitString = Buffer.from(message.content).toString().split('\r')[0].split(",");
 
         var myMessage = {
-            DeviceID : deviceID,
+            DeviceID : this.deviceID,
             Temperature : splitString[1],
             Humidity : splitString[0]
         };
 
     // parse c and build JSON string
-        mybroker.publish({
+        this.broker.publish({
                     properties: {
-			deviceName: gwtestdevice,
+			source: "formatter",
+			deviceId: "gwtestdevice",
+			deviceName: "gwtestdevice",
 			deviceKey: "Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="
                     },
                     content: new Uint8Array(Buffer.from(JSON.stringify(myMessage)))

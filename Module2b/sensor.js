@@ -38,17 +38,12 @@ module.exports = {
 		stream.on('data', function(c) {
                 	console.log('received: ', c.toString());
 
-	                this.broker.publish({
+	                module.exports.broker.publish({
         	            properties: { },
                 	    content: new Uint8Array(Buffer.from(c.toString()))
                 });	
             });
-
-	if(this.server == null)
-	{
-		console.log('server is null');
-	}
-        });
+	});
 
         this.server.listen(this.pipePath + this.pipeName, function(){ })
     },

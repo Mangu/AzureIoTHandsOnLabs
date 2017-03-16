@@ -12,6 +12,7 @@ module.exports = {
     },
 
     receive: function (message) {
+	console.log('printer.receive.properties:', message.properties);
         console.log(`printer.receive - ${Buffer.from(message.content).toString()}`);
     },
 
