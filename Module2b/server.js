@@ -1,3 +1,6 @@
+
+// this is just a test module to test named pipes connectivity
+
 var net = require('net');
 
 var PIPE_NAME = "mypipe";

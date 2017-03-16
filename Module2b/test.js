@@ -1,3 +1,6 @@
+
+// script to test reading from the serial port
+
 var SerialPort = require('serialport');
 
 //portName = process.argv[2];

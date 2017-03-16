@@ -27,7 +27,17 @@
                     "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/sensor.js"
                 }
             },
-            "args": null
+            "args": {"pipeName": "mypipe", "pipePath": "/home/pi/AzureIoTHandsOnLabs/Module2b/"}
+        },        
+        {
+            "name": "node_formatter",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/formatter.js"
+                }
+            },
+            "args": {"deviceID":  "gwtestdevice"}
         },
         {
             "name": "iothub_writer",
@@ -61,10 +71,14 @@
         },
         {
             "source": "node_sensor",
+            "sink": "formatter"
+        },
+        {
+            "source": "formatter",
             "sink": "iothub_writer"
         },
         {
-            "source": "node_sensor",
+            "source": "formatter",
             "sink": "node_printer"
         }
     ]
