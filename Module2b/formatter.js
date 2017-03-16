@@ -9,6 +9,8 @@ module.exports = {
         this.broker = broker;
         this.configuration = configuration;
 
+	console.log('formatter.create');
+
         if(this.configuration && this.configuration.deviceID) {
             this.deviceID = this.configuration.deviceID.toString();
             return true;
@@ -40,6 +42,8 @@ module.exports = {
     // parse c and build JSON string
         mybroker.publish({
                     properties: {
+			deviceName: gwtestdevice,
+			deviceKey: "Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="
                     },
                     content: new Uint8Array(Buffer.from(JSON.stringify(myMessage)))
        });	

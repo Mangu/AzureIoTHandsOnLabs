@@ -37,20 +37,22 @@
                     "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/formatter.js"
                 }
             },
-            "args": {"deviceID":  "gwtestdevice"}
+            "args": {"deviceID":  "gwtestdevice", "deviceKey":"Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="}
         },
-        {
-            "name": "iothub_writer",
-            "loader": {
-                "name": "node",
-                "entrypoint": {
-                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/iothub_writer.js"
-                }
-            },
-            "args": {
-                "connection_string": "HostName=sdbgatewaytest.azure-devices.net;DeviceId=gwtestdevice;SharedAccessKey=Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="
-            }
-        },
+	{
+	      "name": "iothub_writer",
+	      "loader": {
+	        "name" : "native",
+	        "entrypoint" : {
+	          "module.path": "../../../build/modules/iothub/libiothub.so"
+	        }
+	      },
+	      "args": {
+		        "IoTHubName": "sdbgatewaytest",
+		        "IoTHubSuffix": "azure-devices.net",
+		        "Transport": "amqp"
+      		}
+    	},
         {
             "name": "Logger",
             "loader": {
@@ -71,14 +73,14 @@
         },
         {
             "source": "node_sensor",
-            "sink": "formatter"
+            "sink": "node_formatter"
         },
         {
-            "source": "formatter",
+            "source": "node_formatter",
             "sink": "iothub_writer"
         },
         {
-            "source": "formatter",
+            "source": "node_formatter",
             "sink": "node_printer"
         }
     ]
