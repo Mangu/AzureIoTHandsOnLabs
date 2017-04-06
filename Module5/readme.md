@@ -32,7 +32,7 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 3. In the Edit Desired Properties page, click in the edit box under "Desired Property Name".  It's likely you only have one desired property called "desired.Config.TemperatureMeanValue".  We are not going to use that.  Instead, type "desired.Config.TelemetryInterval" into the box.  Type '10'  (or any other number > 3) in the "Value" box.  
 ![Edit Desired Properties](/images/M5.edit_desired_properties.png)  
 
-4. Click "Save Changes to Device Twin" button.   Switch back over to your putty session and notice that a JSON "fragment" has been pushed to the device indicating the desired property change, our changing of our telemetry interval, and the reporting back of the new 'reported' property for the telemetry interval
+4. Click "Save Changes to Device Twin" button.   Switch back over to your putty session and notice that a JSON "fragment" has been pushed to the device indicating the desired property change, our changing of our telemetry interval, and the reporting back of the new 'reported' property for the telemetry interval.  Note that the delay between telemetry sends now matches the new desired configuration.
 ![Updated Desired Properties](/images/M5.updated_desired_props.png)
 
 5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value
