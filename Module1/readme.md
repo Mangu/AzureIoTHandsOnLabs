@@ -63,9 +63,10 @@ Congratulations – you have successfully deployed and updated the Azure IoT RM-
 3.	Reviewing the solution:
     1.	The home page shows you a map that includes four “sample” devices that are deployed with the solution
     2.	Choosing a sample device from the drop down list box shows telemetry being ingested, real-time, from that sample device
-    3.	On the “devices” tab, you can click on one of the devices and display the metadata stored for that device
-    4.	Clicking “commands” shows a list of commands that the device supports
-    5.	Feel free to click around the rest of the portal.  In the next lab, we will explore adding a physical device to this portal and display it’s telemetry on the portal
+    3.	On the “devices” tab, you can click on one of the devices and display the metadata stored for that device, including the reported and desired properties in the device "twin" for the device
+    4.	Clicking “commands” shows a list of commands (asynchronous) that the device supports
+    5.  Clicking "methods" shows the list of Direct Methods (synchronous) that the device supports
+    6.	Feel free to click around the rest of the portal.  In the next lab, we will explore adding a physical device to this portal and display it’s telemetry on the portal
 
 Congratulations – you have completed Module 1
 
