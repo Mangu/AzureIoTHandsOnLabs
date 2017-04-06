@@ -19,7 +19,7 @@ It has also been tested and used on these platforms:
 In this series of labs, you will:
 
 1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
-2. Create a device to read a temperature and humidity sensor (and optionally, a light sensor) and send that data to the RM-PCS for display
+2. Create a device to read a temperature and humidity sensor and send that data to the RM-PCS for display
 3. Create a Stream Analytics job that looks for ‘high temperature’ alerts and outputs that alert to a queue for further processing
 4. Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
     
@@ -121,7 +121,7 @@ Before we can connect the device to the Azure RM-PCS, we need to let the solutio
  ![Custom Device](/images/m2AddDevice.png) 
 5.	Click Create
 6.	Your device is now added to the RM-PCS.  Copy the three parameters displayed on this page, Device ID, IoTHub Hostname, and Device Key.  Paste them into notepad, as we will need them in the next step
-7.	Click Done.  On the Devices screen, note that your device is in a “pending” state.  That essentially means that the solution knows about your device and is ready for it, but has not yet “heard from” that device.  We will remedy that in the next section
+7.	Click Done.  On the Devices screen, see that your device has been added to the list of devices in the solution.
 
 #### Step 4 - Posting Telemetry data to Azure 
 The code to read from your DHT22 sensor and post to Azure has been provided as part of this lab.  Now that we have our keys, strings, etc, we’ll need to download it, modify it for your specific RM-PCS solution details, run it, and test it.  Follow the steps below to get started
@@ -140,7 +140,7 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
     
 5. Read through the code, which is well commented, and make sure you understand what it is doing.
 
-6. Scroll down to line 17  (you can see what line you are own by typing “CTRL-C”).  Line 17 is where you enter the connection details you got from the “add device” process in the previous step.  Copy/paste your host name, device id, and device key you copied into the placeholders (make sure to delete the < and > signs).  Full screening ‘putty’ allows you to see more of the line at once.
+6. Scroll down to line 17  (you can see what line you are on by typing “CTRL-C”).  Line 17 is where you enter the connection details you got from the “add device” process in the previous step.  Copy/paste your host name, device id, and device key you copied into the placeholders (make sure to delete the < and > signs).  Full screening ‘putty’ allows you to see more of the line at once.
 
     Values to change: 
 
@@ -159,7 +159,7 @@ The code to read from your DHT22 sensor and post to Azure has been provided as p
 8. Save the file.  If you are using nano as the editor, hit CTRL-O, <enter>
 9. Close the file (CTRL-X in nano)
 10. Execute the script   (‘python lab2.py’ from the command prompt)
-11. You should see the DeviceInfo string echo’ed to the screen and sent to the IoTHub, and then every 3 seconds, you should see the temperature and humidity (in a JSON string) sent to the IoTHub.  The LED should also briefly flash to indicate we are sending data
+11. You should see the DeviceInfo string echo’ed to the screen and sent to the IoTHub, the default "reported properties" sent, and then every 5 seconds, you should see the temperature and humidity (in a JSON string) sent to the IoTHub.  The LED should also briefly flash to indicate we are sending data
 12. Congratulations, you’ve connected a physical IoT device to the Azure IoT RM-PCS.  Next we can look at the telemetry, as well as test manually sending a command to the device from the portal, which we will do in the next step
 
 #### Step 5 -  Posting Telemetry data to Azure 
