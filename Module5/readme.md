@@ -15,85 +15,38 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 2. **Desired properties**. Desired properties can only be set by the solution back end and can be read by the device app. The device app can also be notified in real time of changes on the desired properties.
 3. **Reported properties**. Reported properties can only be set by the device app and can be read and queried by the solution back end.
 
-### Step 1 - Add device direct methods and device twin
+### Step 1 - Review Device Management Code
 
-1. Back in the putty session, CD to *Module5* and open lab5.py 
+1. if it's running, stop the lab2.py code and open it in an editor
 
-        cd -
-        cd Module5
-        nano lab5.py
+2. Review the device_twin_callback, device_method_callback, and the code that sends the initial default reported properties around line 323
 
-2. We maded several modifications to the code from lab 2. Here is what we added"
-
-    1. Imported the json module so we can parse our device twin data
-    2. Added several global variables to support our new code
-    3. Changed the protocol to MQTT. Device management features are currently only supported via MQTT
-    
-e            protocol = IoTHubTransportProvider.MQTT
-
-    4. Added methods to support the new functionality 
-
-            def device_method_callback(method_name, payload, user_context):
-                global METHOD_CALLBACKS
-                print "\nMethod callback called with:\nmethodName = %s\npayload = %s\ncontext = %s" % (method_name, payload, user_context)
-                METHOD_CALLBACKS += 1
-                print "Total calls confirmed: %d\n" % METHOD_CALLBACKS
-
-                getattr(sys.modules[__name__], method_name)(35)
-                device_method_return_value = DeviceMethodReturnValue()
-                device_method_return_value.response = "{ \"Response\": \"This is the response from the device\" }"
-                device_method_return_value.status = 200
-                return device_method_return_value
-
-            def device_twin_callback(update_state, payload, user_context):
-                global TWIN_CALLBACKS
-                global sleep_time
-
-                print "\nTwin callback called with:\nupdateStatus = %s\npayload = %s\ncontext = %s" % (update_state, payload, user_context)
-      
-                p = json.loads(payload)
-                sleep_time = int(p['frequency']) 
-    
-                TWIN_CALLBACKS += 1
-                print "Total calls confirmed: %d\n" % TWIN_CALLBACKS
-
-
-            def send_reported_state_callback(status_code, user_context):
-                global SEND_REPORTED_STATE_CALLBACKS
-                print "Confirmation for reported state received with:\nstatus_code = [%d]\ncontext = %s" % (status_code, user_context)
-                SEND_REPORTED_STATE_CALLBACKS += 1
-                print "    Total calls confirmed: %d" % SEND_REPORTED_STATE_CALLBACKS
-
-    5. Set call back functions for direct methods and device twin
-
-            #currently only available via MQTT
-            if iotHubClient.protocol == IoTHubTransportProvider.MQTT:
-                iotHubClient.set_device_twin_callback(device_twin_callback, TWIN_CONTEXT)
-                iotHubClient.set_device_method_callback(device_method_callback, METHOD_CONTEXT)
-
-    6. Modify the connection information as you did in lab 2
-            
-            deviceID = ""
-            deviceKey = ""
-            iotHubHostName = "<yourhub>.azure-devices.net"  
-    7. Exit nano - Ctrl+X then Y then enter
-    8. Run the lab5.py script
-   
-            python lab5.py
+3. close the editor and start the script running again
 
 ### Step 2 - Use device twin to change the frequency of the data collection
 
-1. Connect to IoT Hub via Device Explore. Enter your connection string using the iothubowner policy. Hit update
-![Device Explorer](/images/m52.1.PNG)  
-2. Click on the **Management** tab, select your device from the list and then click on **Twin Props**.
-![Device Explorer](/images/m52.2.PNG)  
-2. Add a desired property "frequency" with value of "1"
-![Device Explorer](/images/m52.3.PNG)  
+1. open the RM-PCS by navigating to http://[solutionname].azurewebsites.net.  Navigate to the devices tab and select your device to open the Device Details pane on the right hand side.
+
+2. In the Desired Properties section of the Device Details pane, click Edit
+
+3. In the Edit Desired Properties page, click in the edit box under "Desired Property Name".  It's likely you only have one desired property called "desired.Config.TemperatureMeanValue".  We are not going to use that.  Instead, type "desired.Config.TelemetryInterval" into the box.  Type '10'  (or any other number > 3) in the "Value" box.  
+![Edit Desired Properties](/images/M5.edit_desired_properties.PNG)  
+
+4. Click "Save Changes to Device Twin" button.   Switch back over to your putty session and notice that a JSON "fragment" has been pushed to the device indicating the desired property change, our changing of our telemetry interval, and the reporting back of the new 'reported' property for the telemetry interval
+![Updated Desired Properties](/images/m5.updated_desired_propsPNG)
+
+5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value
+![New reported property](/images/m5.new_reported_props.PNG)  
 
 ### Step 3 - Use direct method to change turn the LED On and Off
 
-1. Using Device Explorer again, click on the **Call Method on Device** tab
-2. Change the Method name to LEDOn or LEDOff and click on Call Method. Everything should work just as in lab 2.
-![Device Explorer](/images/m53.2.PNG)  
-3. Unlike cloud to device commands, direct methods will immediately return a response. End your putty session, stop the script and repeat step 3.2. You should get an error like this:
-![Device Explorer](/images/m53.3.PNG)  
+Like with the previous "C2D" commands, we are going to instruct the device to turn on and off the LED.  In this case, however, we are using direct methods, which are faster, but volatile, meaning the method call will fail if the device is offline.
+
+1. In the Device Details pane for your device, in the upper right hand corner, click "Methods"
+2. Change the Method name to LEDOn or LEDOff and click on Call Method. The LED shoudl light, just as in lab 2.  Switch back to the putty session and witness the feedback.
+![Direct method call](/images/m5.direct_method_on.PNG)  
+3. Unlike cloud to device commands, direct methods will immediately return a response. To witness this feedback, stop the python script and repeat step 3.2. You should get an error like this:
+![Device Explorer](/images/m5.dm_offline_error.PNG)  
+4. Unlike C2D commands, note that direct methods are not persisted.  If you start the python script back, note that the device does NOT pick up the method call like it did at the end of lab 2.
+
+Congratulations - You've completed the labs and have a good IoT sample demo.
