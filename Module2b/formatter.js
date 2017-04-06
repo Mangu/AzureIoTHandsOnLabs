@@ -45,7 +45,8 @@ module.exports = {
     // parse c and build JSON string
         this.broker.publish({
                     properties: {
-			source: "formatter",
+//			source: "formatter",
+			source: "mapping",
 			deviceId: "gwtestdevice",
 			deviceName: "gwtestdevice",
 			deviceKey: "Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="

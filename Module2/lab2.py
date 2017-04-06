@@ -15,9 +15,9 @@ from iothub_client import *
 from iothub_client_args import *
 
 ##############   values to change  ##############
-deviceID = "<yourdeviceID>"
-deviceKey = "<yourdevickey>"
-iotHubHostName = "<youriothubname>.azure-devices.net"  #ex: myiothub.azure-devices.net
+deviceID = "aaIoTLab"
+deviceKey = "WsYDrjpcx8JY96qxOE7k2A=="
+iotHubHostName = "stevebusrm94b68.azure-devices.net"  #ex: myiothub.azure-devices.net
 
 ######## put the lat and long of your fav place here ##########
 ######## otherwise we default to the center of the football universe ######
@@ -182,7 +182,8 @@ def iothub_client_sample_run():
 	    # read the humidity and temperature from the DHT22
 	    # 	the '22' parameter means we have a DHT22 (vs. a DHT11) sensor
 	    #	the '6' parameter means it is connected to pin 6 on the Pi		
-	    humidity, temperature = Adafruit_DHT.read_retry(22,6)
+#	    humidity, temperature = Adafruit_DHT.read_retry(22,6)
+	    humidity, temperature = Adafruit_DHT.read_retry(11,6)
 
 	    # every once in a while we get a bad reading from the sensor
 	    #	hey, what do you expect, it costs $3  :-)
@@ -211,7 +212,7 @@ def iothub_client_sample_run():
             i += 1
 
 	    # sleep for 3 seconds
-	    time.sleep(3)
+	    time.sleep(10)
 
     except IoTHubError as e:
         print("Unexpected error %s from IoTHub" % e)
