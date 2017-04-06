@@ -35,7 +35,7 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 4. Click "Save Changes to Device Twin" button.   Switch back over to your putty session and notice that a JSON "fragment" has been pushed to the device indicating the desired property change, our changing of our telemetry interval, and the reporting back of the new 'reported' property for the telemetry interval.  Note that the delay between telemetry sends now matches the new desired configuration.
 ![Updated Desired Properties](/images/M5.updated_desired_props.png)
 
-5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value
+5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value.
 ![New reported property](/images/M5.new_reported_props.png)  
 
 ### Step 3 - Use direct method to change turn the LED On and Off
