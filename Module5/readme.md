@@ -36,7 +36,7 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 ![Updated Desired Properties](/images/M5.updated_desired_props.png)
 
 5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value
-![New reported property](/images/M5.new_reported_props.PNG)  
+![New reported property](/images/M5.new_reported_props.png)  
 
 ### Step 3 - Use direct method to change turn the LED On and Off
 
