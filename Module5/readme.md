@@ -30,13 +30,13 @@ You use device twin to maintain a copy of the state of the device in the cloud. 
 2. In the Desired Properties section of the Device Details pane, click Edit
 
 3. In the Edit Desired Properties page, click in the edit box under "Desired Property Name".  It's likely you only have one desired property called "desired.Config.TemperatureMeanValue".  We are not going to use that.  Instead, type "desired.Config.TelemetryInterval" into the box.  Type '10'  (or any other number > 3) in the "Value" box.  
-![Edit Desired Properties](/images/M5.edit_desired_properties.PNG)  
+![Edit Desired Properties](/images/M5.edit_desired_properties.png)  
 
 4. Click "Save Changes to Device Twin" button.   Switch back over to your putty session and notice that a JSON "fragment" has been pushed to the device indicating the desired property change, our changing of our telemetry interval, and the reporting back of the new 'reported' property for the telemetry interval
-![Updated Desired Properties](/images/m5.updated_desired_propsPNG)
+![Updated Desired Properties](/images/M5.updated_desired_props.png)
 
 5. Switch back over to the RM-PCS device details and note that the device has reported it's new 'reported' configuration for the TelemetryInterval value
-![New reported property](/images/m5.new_reported_props.PNG)  
+![New reported property](/images/M5.new_reported_props.PNG)  
 
 ### Step 3 - Use direct method to change turn the LED On and Off
 
@@ -44,9 +44,9 @@ Like with the previous "C2D" commands, we are going to instruct the device to tu
 
 1. In the Device Details pane for your device, in the upper right hand corner, click "Methods"
 2. Change the Method name to LEDOn or LEDOff and click on Call Method. The LED shoudl light, just as in lab 2.  Switch back to the putty session and witness the feedback.
-![Direct method call](/images/m5.direct_method_on.PNG)  
+![Direct method call](/images/M5.direct_method_on.png)  
 3. Unlike cloud to device commands, direct methods will immediately return a response. To witness this feedback, stop the python script and repeat step 3.2. You should get an error like this:
-![Device Explorer](/images/m5.dm_offline_error.PNG)  
+![Device Explorer](/images/M5.dm_offline_error.png)  
 4. Unlike C2D commands, note that direct methods are not persisted.  If you start the python script back, note that the device does NOT pick up the method call like it did at the end of lab 2.
 
 Congratulations - You've completed the labs and have a good IoT sample demo.
