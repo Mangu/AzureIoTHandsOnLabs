@@ -4,6 +4,7 @@ module.exports = {
     broker: null,
     configuration: null,
     deviceID:  null,
+    deviceKey:  null,
 
     create: function (broker, configuration) {
         this.broker = broker;
@@ -11,8 +12,9 @@ module.exports = {
 
 	console.log('formatter.create');
 
-        if(this.configuration && this.configuration.deviceID) {
+        if(this.configuration && this.configuration.deviceID && this.configuration.deviceKey) {
             this.deviceID = this.configuration.deviceID.toString();
+            this.deviceKey = this.configuration.deviceKey.toString();
             return true;
         }
         else {
@@ -32,7 +34,7 @@ module.exports = {
         //  message format is aa.bb,cc.dd\n
         // where aa.bb is Humidity to two decimal places and cc.dd is Temperature to two decimal places
 
-//	console.log('formatter.receive: ', Buffer.from(message.content).toString());
+	console.log('formatter.receive: ', Buffer.from(message.content).toString());
 
         var splitString = Buffer.from(message.content).toString().split('\r')[0].split(",");
 
@@ -45,11 +47,9 @@ module.exports = {
     // parse c and build JSON string
         this.broker.publish({
                     properties: {
-//			source: "formatter",
-			source: "mapping",
-			deviceId: "gwtestdevice",
-			deviceName: "gwtestdevice",
-			deviceKey: "Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="
+			source: "mapping",    // needed for the iothub writer module
+			deviceName: this.deviceID,
+			deviceKey: this.deviceKey
                     },
                     content: new Uint8Array(Buffer.from(JSON.stringify(myMessage)))
        });	

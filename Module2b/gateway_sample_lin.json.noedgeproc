@@ -4,7 +4,7 @@
             "type": "node",
             "name": "node",
             "configuration": {
-                "binding.path": "/home/pi/azure-iot-gateway-sdk/build/bindings/nodejs/libnodejs_binding.so"
+                "binding.path": "../../bindings/nodejs/libnodejs_binding.so"
             }
         }
     ],
@@ -39,22 +39,12 @@
             },
             "args": {"deviceID":  "gwtestdevice", "deviceKey":"Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="}
         },
-        {
-            "name": "node_edgeprocessor",
-            "loader": {
-                "name": "node",
-                "entrypoint": {
-                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/edgeprocessor.js"
-                }
-            },
-            "args": {"samplesize":  5}
-        },
 	{
 	      "name": "iothub",
 	      "loader": {
 	        "name" : "native",
 	        "entrypoint" : {
-	          "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/iothub/libiothub.so"
+	          "module.path": "../../../build/modules/iothub/libiothub.so"
 	        }
 	      },
 	      "args": {
@@ -68,7 +58,7 @@
             "loader": {
                 "name": "native",
                 "entrypoint": {
-                    "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/logger/liblogger.so"
+                    "module.path": "../../modules/logger/liblogger.so"
                 }
             },
             "args": {
@@ -83,10 +73,6 @@
         },
         {
             "source": "node_sensor",
-            "sink": "node_edgeprocessor"
-        },
-        {
-            "source": "node_edgeprocessor",
             "sink": "node_formatter"
         },
         {
