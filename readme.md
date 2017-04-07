@@ -8,8 +8,15 @@ In this workshop you will:
 * Connect a temperature/humidity sensor to a Raspberry PI running Linux
 * Used the Azure IoT Python SDK to connect the Pi to Azure IotHub
     * Including the new device management features 
-* Used Azure Stream Analytics to look for ìhigh temperatureî alerts
+* Used Azure Stream Analytics to look for ‚Äúhigh temperature‚Äù alerts
 * Leveraged an Azure Function to send a command back to the alerting device
+
+### Hardware
+
+For the lab hardware, you need at a minimum, a RaspberryPi (2, 3, or ZeroW), a DHT22 temperature and humidity sensor, LED, resistors, breadboard and wires.  If you don't already have hardware, you can buy the kits from the links below (among many other places)
+
+*	Raspberry PI 3 kit - https://www.adafruit.com/products/3058
+*	DHT 22  Temperature and Humidity Sensor - https://www.adafruit.com/products/385  
 
 
 ### Modules
