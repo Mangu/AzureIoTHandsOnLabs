@@ -1,0 +1,30 @@
+{
+     "Device": {
+         "DeviceState": "normal",
+         "Location": {
+             "Latitude": %%LATITUDE%%,
+             "Longitude": %%LONGITUDE%%
+         }
+     },
+     "Config": {
+         "TemperatureMeanValue": 56.7,
+         "TelemetryInterval": 5
+     },
+     "System": {
+         "Manufacturer": "Contoso Inc.",
+         "FirmwareVersion": "2.22",
+         "InstalledRAM": "8 MB",
+         "ModelNumber": "DB-14",
+         "Platform": "Plat 9.75",
+         "Processor": "i3-9",
+         "SerialNumber": "SER99"
+     },
+     "Location": {
+         "Latitude": %%LATITUDE%%,
+         "Longitude": %%LONGITUDE%%
+     },
+     "SupportedMethods": {
+         "LEDOn": "Turn LED On",
+         "LEDOff": "Turn LED Off"
+     },
+ }

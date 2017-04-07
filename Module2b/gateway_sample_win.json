@@ -1,0 +1,85 @@
+{
+    "loaders": [
+        {
+            "type": "node",
+            "name": "node",
+            "configuration": {
+                "binding.path": "..\\..\\..\\bindings\\nodejs\\Debug\\nodejs_binding.dll"
+            }
+        }
+    ],
+    "modules": [
+        {
+            "name": "node_printer",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "../../../samples/nodejs_simple_sample/nodejs_modules/printer.js"
+                }
+            },
+            "args": null
+        },
+        {
+            "name": "node_sensor",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "c:/nodesample/sensor.js"
+                }
+            },
+            "args": {"pipeName": "mypipe", "pipePath": "\\\\.\\pipe\\"}
+        },
+        {
+            "name": "node_formatter",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "c:/nodesample/formatter.js"
+                }
+            },
+            "args": {"deviceID":  "gwtestdevice"}
+        },
+        {
+            "name": "iothub_writer",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "c:/nodesample/iothub_writer.js"
+                }
+            },
+            "args": {
+                "connection_string": "<connection string here>"
+            }
+        },
+        {
+            "name": "Logger",
+            "loader": {
+                "name": "native",
+                "entrypoint": {
+                    "module.path": "..\\..\\..\\modules\\logger\\Debug\\logger.dll"
+                }
+            },
+            "args": {
+                "filename": "log.txt"
+            }
+        }
+    ],
+    "links": [
+        {
+            "source": "*",
+            "sink": "Logger"
+        },
+        {
+            "source": "node_sensor",
+            "sink": "formatter"
+        },
+        {
+            "source": "formatter",
+            "sink": "iothub_writer"
+        },
+        {
+            "source": "formatter",
+            "sink": "node_printer"
+        }
+    ]
+}

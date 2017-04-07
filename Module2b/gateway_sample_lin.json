@@ -1,0 +1,101 @@
+{
+    "loaders": [
+        {
+            "type": "node",
+            "name": "node",
+            "configuration": {
+                "binding.path": "/home/pi/azure-iot-gateway-sdk/build/bindings/nodejs/libnodejs_binding.so"
+            }
+        }
+    ],
+    "modules": [
+        {
+            "name": "node_printer",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/printer.js"
+                }
+            },
+            "args": null
+        },
+        {
+            "name": "node_sensor",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/sensor.js"
+                }
+            },
+            "args": {"pipeName": "mypipe", "pipePath": "/home/pi/AzureIoTHandsOnLabs/Module2b/"}
+        },        
+        {
+            "name": "node_formatter",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/formatter.js"
+                }
+            },
+            "args": {"deviceID":  "gwtestdevice", "deviceKey":"Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="}
+        },
+        {
+            "name": "node_edgeprocessor",
+            "loader": {
+                "name": "node",
+                "entrypoint": {
+                    "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/edgeprocessor.js"
+                }
+            },
+            "args": {"samplesize":  5}
+        },
+	{
+	      "name": "iothub",
+	      "loader": {
+	        "name" : "native",
+	        "entrypoint" : {
+	          "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/iothub/libiothub.so"
+	        }
+	      },
+	      "args": {
+		        "IoTHubName": "sdbgatewaytest",
+		        "IoTHubSuffix": "azure-devices.net",
+		        "Transport": "amqp"
+      		}
+    	},
+        {
+            "name": "Logger",
+            "loader": {
+                "name": "native",
+                "entrypoint": {
+                    "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/logger/liblogger.so"
+                }
+            },
+            "args": {
+                "filename": "log.txt"
+            }
+        }
+    ],
+    "links": [
+        {
+            "source": "*",
+            "sink": "Logger"
+        },
+        {
+            "source": "node_sensor",
+            "sink": "node_edgeprocessor"
+        },
+        {
+            "source": "node_edgeprocessor",
+            "sink": "node_formatter"
+        },
+        {
+            "source": "node_formatter",
+            "sink": "iothub"
+        },
+        {
+            "source": "node_formatter",
+            "sink": "node_printer"
+        }
+    ]
+}
