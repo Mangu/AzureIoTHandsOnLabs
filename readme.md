@@ -2,10 +2,16 @@
 
 ### Overview
 
+This hands-on lab demonstrates what is involved in connecting a physical custom device up to the Azure IoT Remote Monitoring pre-configured solution, to both display the telemetry data sent from the device, but also demonstrate management of the device through that portal.  Additionally, we show you how to do simple "real time analytics" with Azure Stream Analytics to sense high temperatures and 'act' upon the high temperature alert by sending a command to light a warning light on the device.  The idea is to show how straightforward it is to 'round trip' data from a device, to Azure, through Stream Analytics, and back to the device
+
+There are two different available methods for connecting the device to IoTHub, which can be used to demonstrate "smart devices" that are capable of talking directly to IoTHub, or "dumb" devices that communicate to the gateway through Azure IoT's Gateway SDK (http://github.com/azure/azure-iot-gateway-sdk).
+
+
 In this workshop you will:
 
 * Generate an instance of the Azure IoT Remote Monitoring solution
 * Connect a temperature/humidity sensor to a Raspberry PI running Linux
+    * optionally connect the sensor to an arduino device that emulates a "dumb" device and leverages the Raspberry Pi as a gateway
 * Used the Azure IoT Python SDK to connect the Pi to Azure IotHub
     * Including the new device management features 
 * Used Azure Stream Analytics to look for “high temperature” alerts
@@ -16,13 +22,14 @@ In this workshop you will:
 For the lab hardware, you need at a minimum, a RaspberryPi (2, 3, or ZeroW), a DHT22 temperature and humidity sensor, LED, resistors, breadboard and wires.  If you don't already have hardware, you can buy the kits from the links below (among many other places)
 
 *	Raspberry PI 3 kit - https://www.adafruit.com/products/3058
-*	DHT 22  Temperature and Humidity Sensor - https://www.adafruit.com/products/385  
-
+*	DHT 22  Temperature and Humidity Sensor - https://www.adafruit.com/products/385
+*  (optional) - if you want to experience the gateway SDK, you need an Arduino device - https://www.adafruit.com/product/50 (feel free to substitute any other Arduino device with a USB port, like a Nano, for example)
 
 ### Modules
 
 * [Module 1 - Azure IoT Remote Monitoring pre-configured solution](Module1) 
 * [Module 2 - Connect Device to IoT Hub](Module2)
+* <<todo:  link to Module 2>>
 * [Module 3 - Azure Stream Analytics](Module3)
 * [Module 4 - Azure Functions](Module4)
 * [Module 5 - Device Management](Module5)
@@ -32,6 +39,7 @@ For the lab hardware, you need at a minimum, a RaspberryPi (2, 3, or ZeroW), a D
 * Install python 2.7 https://www.python.org/downloads/
 * Install the Device Explorer tool from https://github.com/Azure/azure-iot-sdks/releases/download/2016-11-17/SetupDeviceExplorer.msi
 * Install Putty (if on a Windows PC) - http://www.putty.org/ 
+* If you want to do the Gateway SDK module (2b), install the Arduino IDE at http://arduino.cc
 * Install drivers for the USB to Serial cable (we provide the actual cable) - https://learn.adafruit.com/adafruits-raspberry-pi-lesson-5-using-a-console-cable?view=all 
 * Access to an Azure Subscription
 
