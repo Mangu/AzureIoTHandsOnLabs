@@ -22,7 +22,7 @@ At a high level, the steps of this lab involve
 * Write gateway modules to read from the Arduino (protocol translation), and convert the data to JSON (formatter), as examples of writing gateway modules
 * Configure the gateway to authenticate to Azure IoT and run the solution
 
-#### Step 1 - Arduino device setup and development
+### Step 1 - Arduino device setup and development
 
 In this section, we will connect, setup, and program our Arduino device.  That will involve several tasks, including
 *	Install the Arduino IDE
@@ -178,5 +178,46 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
 
 12.)	Congratulations, you’ve built and programmed your sensor.  For more information on the DHT22 sensor see the adafruit website:  https://learn.adafruit.com/dht/overview 
 
+### Step 2 - Prepare Raspberry Pi as a gateway
 
+In this section, we will set up our Raspberry Pi for use as a gateway by downloading, building, and configuring the gateway SDK.  We assume your Raspberry Pi (RPI) is already installed and connected to the network (either wired or wireless) and that you can access it via SSH either over the network or serial console cable.  We further assume you are logged in under the 'pi' user name, if not, you'll need to adjust the path in a few commands and the gateway config.
+
+**Note:  If you are doing this lab as part of an instructor-led delivery, this step MAY have already been done for you.  Ask your instructor!!**
+
+1.) the first step is to clone the gateway SDK repository to your machine.  From the bash prompt, type:
+
+    sudo apt-get update 
+    sudo apt-get install curl build-essential libcurl4-openssl-dev git cmake libssl-dev uuid-dev valgrind libglib2.0-dev libtool autoconf
+    git clone --recursive http://github.com/azure/azure-iot-gateway-sdk
+
+2.) the RPI ships with an older version of Node.  We need to install the latest version with these steps:
+
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    
+and then
+ 
+    sudo apt-get install nodejs
+
+When finished, run
+   
+    node --version
+
+and ensure the version number is 6.10.xx  (where XX may differ)
+
+3.) The next step it to build the nodejs 'bindings' and the SDK itself.  This gets us the SDK and the ability to build gateway modules in node.js
+
+From the RPI command line:
+    
+    cd <azure_iot_gateway_sdk_root>/tools/
+    ./build_nodejs.sh 
+
+Copy and paste (execute) the export message that shows up on screen to set the NODE_INCLUDE and NODE_LIB environment variables
+
+    ./build.sh --enable-nodejs-binding
+    cd ../samples/nodejs_simple_sample/nodejs_modules/
+    npm install
+
+The Node and SDK builds will take quite a while, so grab some coffee (and maybe go out to a long lunch!)
+
+4.) 
 
