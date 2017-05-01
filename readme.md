@@ -23,13 +23,13 @@ For the lab hardware, you need at a minimum, a RaspberryPi (2, 3, or ZeroW), a D
 
 *	Raspberry PI 3 kit - https://www.adafruit.com/products/3058
 *	DHT 22  Temperature and Humidity Sensor - https://www.adafruit.com/products/385
-*  (optional) - if you want to experience the gateway SDK, you need an Arduino device - https://www.adafruit.com/product/50 (feel free to substitute any other Arduino device with a USB port, like a Nano, for example)
+    *   (optional) - if you want to experience the gateway SDK, you need an Arduino device - https://www.adafruit.com/product/50 (feel free to substitute any other Arduino device with a USB port, like a Nano, for example).  You also need th correct USB cable to hook your arduino up to the Raspberry Pi
 
 ### Modules
 
 * [Module 1 - Azure IoT Remote Monitoring pre-configured solution](Module1) 
 * [Module 2 - Connect Device to IoT Hub](Module2)
-* <<todo:  link to Module 2>>
+    * [(optional) Module 2b - Connect Device to IoTHub via Gateway](Module2b)
 * [Module 3 - Azure Stream Analytics](Module3)
 * [Module 4 - Azure Functions](Module4)
 * [Module 5 - Device Management](Module5)
