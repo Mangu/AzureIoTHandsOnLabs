@@ -4,7 +4,7 @@
             "type": "node",
             "name": "node",
             "configuration": {
-                "binding.path": "../../bindings/nodejs/libnodejs_binding.so"
+                "binding.path": "/home/pi/azure-iot-gateway-sdk/build/bindings/nodejs/libnodejs_binding.so"
             }
         }
     ],
@@ -37,18 +37,18 @@
                     "main.path": "/home/pi/AzureIoTHandsOnLabs/Module2b/formatter.js"
                 }
             },
-            "args": {"deviceID":  "gwtestdevice", "deviceKey":"Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac="}
+            "args": {"deviceID":  "<yourdeviceid>", "deviceKey":"<yourdevicekey>"}
         },
 	{
 	      "name": "iothub",
 	      "loader": {
 	        "name" : "native",
 	        "entrypoint" : {
-	          "module.path": "../../../build/modules/iothub/libiothub.so"
+	          "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/iothub/libiothub.so"
 	        }
 	      },
 	      "args": {
-		        "IoTHubName": "sdbgatewaytest",
+		        "IoTHubName": "<youriothubname>",
 		        "IoTHubSuffix": "azure-devices.net",
 		        "Transport": "amqp"
       		}
@@ -58,7 +58,7 @@
             "loader": {
                 "name": "native",
                 "entrypoint": {
-                    "module.path": "../../modules/logger/liblogger.so"
+                    "module.path": "/home/pi/azure-iot-gateway-sdk/build/modules/logger/liblogger.so"
                 }
             },
             "args": {

@@ -18,6 +18,7 @@ At the end of this lab you will have a physical IoT device connected to an Azure
 At a high level, the steps of this lab involve
 
 * Wire up and program the arduino device to represent a "dumb" device, and hook it up to the Raspberry Pi
+* Create a 'custom' device in the RM-PCS solution
 * Deploy the Azure gateway SDK to Raspberry Pi
 * Write gateway modules to read from the Arduino (protocol translation), and convert the data to JSON (formatter), as examples of writing gateway modules
 * Configure the gateway to authenticate to Azure IoT and run the solution
@@ -178,7 +179,22 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
 
 12.)	Congratulations, you’ve built and programmed your sensor.  For more information on the DHT22 sensor see the adafruit website:  https://learn.adafruit.com/dht/overview 
 
-### Step 2 - Prepare Raspberry Pi as a gateway
+#### Step 2 - Gathering IDs, Keys, and Connection Strings
+
+Before we can connect the device to the Azure RM-PCS, we need to let the solution know about the device (so we can authenticate).  
+
+1.	Navigate to your RM-PCS solution   (https://\[solutionname\].azurewebsites.net)
+2.	On the bottom left corner, click the “Add a device” button
+ 
+3.	Click Add New under “Custom Device”
+4.	On the next screen, change the radio buttons to “let me define my own Device ID”, and pick a deviceID for your device
+ ![Custom Device](/images/m2AddDevice.png) 
+5.	Click Create
+6.	Your device is now added to the RM-PCS.  Copy the three parameters displayed on this page, Device ID, IoTHub Hostname, and Device Key.  Paste them into notepad, as we will need them later on
+7.	Click Done.  On the Devices screen, see that your device has been added to the list of devices in the solution.
+
+
+### Step 3 - Prepare Raspberry Pi as a gateway
 
 In this section, we will set up our Raspberry Pi for use as a gateway by downloading, building, and configuring the gateway SDK.  We assume your Raspberry Pi (RPI) is already installed and connected to the network (either wired or wireless) and that you can access it via SSH either over the network or serial console cable.  We further assume you are logged in under the 'pi' user name, if not, you'll need to adjust the path in a few commands and the gateway config.
 
@@ -211,13 +227,139 @@ From the RPI command line:
     cd <azure_iot_gateway_sdk_root>/tools/
     ./build_nodejs.sh 
 
-Copy and paste (execute) the export message that shows up on screen to set the NODE_INCLUDE and NODE_LIB environment variables
+(Note:  The Node and SDK builds will take quite a while, so grab some coffee (and maybe go out to a long lunch!))
+
+4.) Copy and paste (execute) the export message that shows up on screen to set the NODE_INCLUDE and NODE_LIB environment variables
 
     ./build.sh --enable-nodejs-binding
     cd ../samples/nodejs_simple_sample/nodejs_modules/
     npm install
 
-The Node and SDK builds will take quite a while, so grab some coffee (and maybe go out to a long lunch!)
+Now we have all the necessary infrastructure to create a run a gateway.
 
-4.) 
+### Step 3 - Review code and configure gateway
+
+In this section we will download and review the gateway code for the lab, and configure the gateway.
+
+**Note**:  As of this writing, there is a limitation in the gateway that just happens to expose itself in our specific scenario (reading from the serial port).  The issue occurs because the most popular (by far) Node library for reading from the serialport ('serialport') does a static link back into the Node executable itself (to leverage some function exported by the Node engine itself).  This is a rare occurence, but is unsupported by the gateway SDK.  This will not be an issue when the gateway SDK supports "out of process" Node modules, which is on our roadmap (it's supported in 'c' today).  So, to temporarily work around that, we actually have the gateway read from a named pipe.  We have a separate 'client' app that reads from the serial port and posts that data down the named pipe the gateway module is listening on.  The lab will be updated when out-of-process modules are supported in Node
+
+1.) to get started, change back to the root of our user home directory
+
+	cd ~
+
+2.) clone the lab repository
+
+	git clone --recursive http://github.com/mangu/AzureIoTHandsOnLabs
+
+3.) change to the Module2b folder
+
+	cd AzureIoTHandsOnLabs/Module2b
+
+#### Anatomy of a gateway configuration
+
+The configuration of the Azure IoT Gateway is controlled by a JSON configuration file.  The file contains three major types of entries:
+* loaders - the MSFT provided libraries for 'loading' modules written in various languages
+* modules - names, types (language), code/library location, and optional configuration information specific each module in the gateway pipeline
+* links - the links between modules (i.e. which module receives messages published by which other modules).  Links are really what configures the 'pipeline' aspect of the gateway.
+
+as an example of this, print out to the screen the contents of the file gateway_sample_lin.json.noedgeproc
+
+	cat gateway_sample_lin.json.noedgeproc
+
+Note the "links" section of the dumped JSON file (shown here)
+
+    "links": [
+        {
+            "source": "*",
+            "sink": "Logger"
+        },
+        {
+            "source": "node_sensor",
+            "sink": "node_formatter"
+        },
+        {
+            "source": "node_formatter",
+            "sink": "iothub"
+        },
+        {
+            "source": "node_formatter",
+            "sink": "node_printer"
+        }
+    ]
+
+From a pipeline perspective, the data flows like this...
+
+* data from every module (*) is sent to the logger component (for debug dumping to a file)
+* the first module in the pipeline (nothing 'sources' it) is the node_sensor module.  This is the module doing "protocol translation" from our device.  Note, this data is the raw CSV-formatted temperature/humidity data from the 'dumb' Arduino device
+* the data read from the sensor is sent to the node_formatter module.  This module will take the raw CSV data and re-format it to JSON, which is what we want to send to the IotHub
+* once the data leaves the node_formatter module, it is split.  One path sends the data to the Microsoft-provided 'iothub' module for tranmission up to IoTHub.  The other path sends the data to the node_printer module, whose simple job is dump the data to the screen for debugging
+
+#### Anatomy of a Node gateway module:
+
+Let's take a look at the sensor module as an example of a typical Node module.  Open the sensor.js file in your favorite linux editor, for example:
+
+	nano sensor.js
+
+gateway modules are loaded and executed by the gateway module by exporting a set of well known methods.  These methods are implemented by the module and called by the engine over the lifetime of the gateway execution:
+
+* create - called when the module is first loaded by the gateway engine.  A good place to read config, etc.  The gateway engine passes in a reference to the gateway's message broker, as well as the modules configuration from the configuration file.
+* start - called when all modules are loaded and gateway execution is starting.  A good place for initialization
+* receive - called whenever a message has been routed to the module by an upstream 'source'.  The message is sent in as a byte array and can be converted to a string by the code:  Buffer.from(message.content).toString()
+* destroy - called when the gateway is shutting down.  Cleanup work goes here
+
+One final thing to note, modules send data to the gateway pipeline (and thus other modules) by calling the broker.publish() method.  The module can set properties on the message, as well as send content (as a byte array, which can be created from a string by calling: new Uint8Array(Buffer.from(myMessageString)).  This can be seen in the formatter.js module.
+
+ctrl-X lets you close the nano editor.  go ahead and open each of the node modules below and comb through the code to understand it.  A few notes:
+
+* sensor.js - this module opens the named pipe mentioned above and reads the serial data from the device client and publishes it on the broker.  Note the empty receive() function because this module does not 'sink' any data from the broker, only 'sources'
+* formatter.js - this module takes the CSV data from the sensor and JSON'ifys it.  Note the example of reading data from the broker, manipulating it, and publishing it back
+* printer.js - dumps the received data to the console.  Would likely be left out of any production solution (as we have the logger module too)
+
+
+#### gateway configuration and execution
+
+1. ) The initial configuration (we'll play ith it later) of the gateway is in the file gateway_sample_lin.json.noedgeproc.  Open that file in your favorite linux editor
+
+	nano gateway_sample_lin.json.noedgeproc
+
+2. ) on line 40, replace \<yourdeviceid\> and \<yourdevicekey\> with the deviceID and deviceKey from the RM-PCS in Step 2
+
+3. ) on line 51, replace \<youriothubname\> with the IoThub behind your RM-PCS (the IoTHub URI *without* the .azure-devices.net part)
+
+4. ) review the rest of the configuration file and familiarize yourself with the rest of the config
+
+5.) Hit
+
+	CTRL-O
+	<enter>
+	CTRL-X
+
+to exit the editor
+
+6.) to execute the gateway, you run the ./gw executable, specifying the configuration file as a command line parameter:
+
+	./gw gateway_sample_lin.json.noedgeproc
+
+You will see some debug output indicating that the gateway is starting and each module is being loaded
+
+7.) because of our temporary work around with the serial port, we need to run a separate client javascript program to actually read the data from the serial port and write it to the named pipe that the sensor.js module is listening too.  We will run this script in a separate putty window.  Open a new putty window and connect again to the raspberry pi.  Change to the ~/AzureIoTHandsOnLabs/Module2b folder again in this second window
+
+8.) Before running the client, we need to install the serial port library by typing:
+
+	npm install serialport
+
+9.) now we are ready to run the client.js script.  At the bash prompt, enter
+
+	node client.js
+
+you will see the data being read from the arduino device over the serial port and written to the screen (and the named pipe).
+
+Observe the gateway output, you should see output similar to the below:
+
+
+
+
+
+
+ 
 
