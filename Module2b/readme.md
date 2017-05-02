@@ -22,6 +22,7 @@ At a high level, the steps of this lab involve
 * Deploy the Azure gateway SDK to Raspberry Pi
 * Write gateway modules to read from the Arduino (protocol translation), and convert the data to JSON (formatter), as examples of writing gateway modules
 * Configure the gateway to authenticate to Azure IoT and run the solution
+* Add some "edge processing" to the solution
 
 ### Step 1 - Arduino device setup and development
 
@@ -237,7 +238,7 @@ From the RPI command line:
 
 Now we have all the necessary infrastructure to create a run a gateway.
 
-### Step 3 - Review code and configure gateway
+### Step 4 - Review code and configure gateway
 
 In this section we will download and review the gateway code for the lab, and configure the gateway.
 
@@ -356,10 +357,115 @@ you will see the data being read from the arduino device over the serial port an
 
 Observe the gateway output, you should see output similar to the below:
 
+	creating sensor
+	formatter.create
+	Gateway is running. Press return to quit.
+	sensor.start - listening on  /home/pi/AzureIoTHandsOnLabs/Module2b/mypipe
+	formatter.start
+	creating server
+	sensor.received:  55.40,73.58
+	formatter.receive:  55.40,73.58
+	Info: Retry policy set (5, timeout = 0)
+	Info: Transport state changed from AMQP_TRANSPORT_STATE_NOT_CONNECTED to AMQP_TR                                                                                                                     ANSPORT_STATE_CONNECTING
+	Info: Transport state changed from AMQP_TRANSPORT_STATE_CONNECTING to AMQP_TRANS                                                                                                                     PORT_STATE_CONNECTED
+	printer.receive.properties: { source: 'mapping',
+	  deviceName: 'gwtestdevice',
+	  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+	printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.58","Humidity":"5                                                                                                                     5.40"}
+	sensor.received:  55.40,73.58
+	formatter.receive:  55.40,73.58
+	printer.receive.properties: { source: 'mapping',
+	  deviceName: 'gwtestdevice',
+	  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+	printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.58","Humidity":"5                                                                                                                     5.40"}
+	sensor.received:  55.40,73.58
+	formatter.receive:  55.40,73.58
+	printer.receive.properties: { source: 'mapping',
+	  deviceName: 'gwtestdevice',
+	  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+	printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.58","Humidity":"5                                                                                                                     5.40"}
+	sensor.received:  55.40,73.58
+	formatter.receive:  55.40,73.58
+	printer.receive.properties: { source: 'mapping',
+	  deviceName: 'gwtestdevice',
+	  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+	printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.58","Humidity":"5                                                                                                                     5.40"}
 
+	Gateway is quitting
+	printer.destroy
+	sensor.destroy
+	formatter.destroy
+	Info: Transport state changed from AMQP_TRANSPORT_STATE_CONNECTED to AMQP_TRANSP                                                                                                                     ORT_STATE_BEING_DESTROYED
 
+\<TODO:   put code in here to view the data in the RM-PCS>
 
+To end execution, which to the window that is running the client.js app and hit CTRL-C.  Switch back to the gateway module window and hit \<enter>
 
+### Step 5 - Add edge processing to the gateway
+
+One of the many great uses for an IoT gateway is to do some processing "on the edge" before passing data on to the cloud backend.  Microsoft has announced formal support, in the form of Azure Stream Analytics running on the edge for robust SQL-based processing on the edge (more details -> https://azure.microsoft.com/en-us/blog/announcing-azure-stream-analytics-on-edge-devices-preview/).  At the time of this writing, however, that feature is in private preview, so just to demonstrate the concepts, we will implement a simple edge processor and add it to our gateway.
+
+1.) review the edgeprocessor.js module.  This module, which we will insert between the sensor module and the formatter module, reads the sensor data and, rather than passing along every message from the sensor, takes the 'average' of the temperature and humidity over a configurable number of samples (default:5).  The edgeprocessor module then publishes this average value to the message broker for processing by the formatter module and sending to Azure.
+
+Note that this demonstrates an important concept in gateway behavior.  Not every message has to make it through the pipeline.  Modules can aggregate messages from previous modules, change and republish them, or even drop them completely (filter), all based on the desired behavior of the gateway.
+
+2.) to add the edge processing module into the pipeline requires a simple configuration change.  Edit the gateway_sample_lin.json file  (note it doesn't have .noedgeproc on the end)
+
+	nano gateway_sample_lin.json
+
+as with the previous configuration file, you need to edit and add the \<deviceID>, \<devicekey>, and \<iothubname> parameters.
+
+Note that, in the *modules* section, we've added the details of the edgeprocessor module.  Also note that in the *links* section, we've changed the source and sink details to 'insert' the edgeprocessor module inbetween the sensor module and the formatter module.
+
+save the configuration file and re-run the gateway with the new configuration
+
+	./gw gateway_sample_lin.json
+
+You should see output similar to the below:
+
+		creating sensor
+		formatter.create
+		Gateway is running. Press return to quit.
+		sensor.start - listening on  /home/pi/AzureIoTHandsOnLabs/Module2b/mypipe
+		formatter.start
+		edgeprocessor.start with sample size5
+		creating server
+		sensor.received:  55.70,73.22
+		edgeprocessor.receive:  55.70,73.22
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.60,73.04
+		edgeprocessor.receive:  55.60,73.04
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		edgeprocessor output: 55.74,73.18
+		formatter.receive:  55.74,73.18
+		printer.receive.properties: { source: 'mapping',
+		  deviceName: 'gwtestdevice',
+		  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+		printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.18","Humidity":"55.74"}
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+		sensor.received:  55.70,73.04
+		edgeprocessor.receive:  55.70,73.04
+		edgeprocessor output: 55.78,73.18
+		formatter.receive:  55.78,73.18
+		printer.receive.properties: { source: 'mapping',
+		  deviceName: 'gwtestdevice',
+		  deviceKey: 'Y7tOX9yDWKl/uW2s6YYfu+Slz1E0T9e/PFIT76jzIac=' }
+		printer.receive - {"DeviceID":"gwtestdevice","Temperature":"73.18","Humidity":"55.78"}
+		sensor.received:  55.80,73.22
+		edgeprocessor.receive:  55.80,73.22
+
+Note that now you only see the average temp and humidity being published after every 5 samples for downstream JSON formatting and sending to iothub.  We've aggregated and filtered data from our "dumb" device via an IoT gateway.
 
  
 
