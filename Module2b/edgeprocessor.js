@@ -14,6 +14,7 @@ module.exports = {
         this.broker = broker;
         this.configuration = configuration;
 
+        // read sample size from config.  Tells us how many readings to 'average over'
         if(this.configuration && this.configuration.samplesize) {
             this.samplesize = parseInt(this.configuration.samplesize.toString());
             return true;
@@ -35,31 +36,38 @@ module.exports = {
         //  message format is aa.bb,cc.dd\n
         // where aa.bb is Humidity to two decimal places and cc.dd is Temperature to two decimal places
 
-	console.log('edgeprocessor.receive: ', Buffer.from(message.content).toString());
+	    console.log('edgeprocessor.receive: ', Buffer.from(message.content).toString());
 
+        // split the temp and Humidity into separate strings in an array.
         var splitString = Buffer.from(message.content).toString().split('\r')[0].split(",");
 
-	this.humtotal = this.humtotal + parseFloat(splitString[0]);
-	this.temptotal = this.temptotal + parseFloat(splitString[1]);
+        // add the current values to a running total
+        this.humtotal = this.humtotal + parseFloat(splitString[0]);
+        this.temptotal = this.temptotal + parseFloat(splitString[1]);
         this.samplecount = this.samplecount + 1;
 
-	if(this.samplecount >= this.samplesize)
-	{
-		var humavg = this.humtotal / this.samplesize;
-		var tempavg = this.temptotal / this.samplesize;
+        // once we've reached the number of samples specified in the config
+        if(this.samplecount >= this.samplesize)
+        {
+            // compute the average values
+            var humavg = this.humtotal / this.samplesize;
+            var tempavg = this.temptotal / this.samplesize;
 
-		var myMessage = humavg.toFixed(2) + "," + tempavg.toFixed(2) + "\r";
-		console.log("edgeprocessor output: " + myMessage);
+            // re-write into the original CSV format, since the downstream formatter module reads that format
+            var myMessage = humavg.toFixed(2) + "," + tempavg.toFixed(2) + "\r";
+            console.log("edgeprocessor output: " + myMessage);
 
-		// parse c and build JSON string
-        	this.broker.publish({
-                    properties: {},
-                    content: new Uint8Array(Buffer.from(myMessage))
-       });	
-		this.humtotal = 0;
-		this.temptotal = 0;
-		this.samplecount = 0;
-	}
+            // send the message to the broker to move it on downstream
+            this.broker.publish({
+                        properties: {},
+                        content: new Uint8Array(Buffer.from(myMessage))
+            });
+
+            // reset our counters and running totals
+            this.humtotal = 0;
+            this.temptotal = 0;
+            this.samplecount = 0;
+        }
 
     },
 

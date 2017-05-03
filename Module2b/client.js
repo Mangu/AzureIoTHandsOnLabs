@@ -29,14 +29,31 @@ var client = net.connect(PIPE_PATH, function() {
     console.log('Client: on connection');
 })
 
+// if we received a command, and it contains the string "ON", then send the "ON" command down the serial port
+// otherwise send "OFF"
 client.on('data', function(data) {
-    console.log('Client: on data:', data.toString());
+    console.log('Received Command:', data.toString());
+
+    if(data.toString().indexOf("ON") > -1)
+    {
+	myPort.write("ON\n");
+	myPort.drain();
+	console.log('Sending Command: ON');
+    }
+    else
+    {
+	myPort.write("OFF\n");
+	myPort.drain();
+	console.log('Sending Command: OFF');
+    }
+    
 });
 
 client.on('end', function() {
     console.log('Client: shutting down');
 })
 
+//when we receive data from the serial port (i.e. the "dumb" arduino device), send it down the named pipe to the sensor module
 function sendSerialData(data) {
 	//  this is here because on linux, we don't necessarily start with a clean serial buffer for some reason I'm too lazy to troubleshoot..  :-)
 	//  sometimes the first 'read' gets gibberish so we just make sure that what we received on the read is 12 bytes 

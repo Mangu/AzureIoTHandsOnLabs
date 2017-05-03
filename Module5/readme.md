@@ -3,6 +3,8 @@
 ### Introduction
 In this lab we will focus on two new device management capabilities of IoT Hub; device twin and direct method. We will build on lab 2 and use direct methods and an aternative to cloud to device commnads as well a device twin to change the configuration of the device application.
 
+** NOTE:  Device management via the device twin and direct methods is not (yet) supported through the Azure IoT Gateway SDK.  You cannot do this lab if you connected your device via the gateway (per Module2b) **
+
 You use a direct method to initiate device management actions (such as reboot, factory reset, and firmware update) from a back-end app in the cloud. The device is responsible for:
 
 1. Handling the method request sent from IoT Hub.
