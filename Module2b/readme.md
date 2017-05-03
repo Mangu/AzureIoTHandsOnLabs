@@ -23,6 +23,7 @@ At a high level, the steps of this lab involve
 * Write gateway modules to read from the Arduino (protocol translation), and convert the data to JSON (formatter), as examples of writing gateway modules
 * Configure the gateway to authenticate to Azure IoT and run the solution
 * Add some "edge processing" to the solution
+* View the solution in the RM-PCS and send a test command to the device
 
 ### Step 1 - Arduino device setup and development
 
@@ -285,6 +286,14 @@ Note the "links" section of the dumped JSON file (shown here)
         {
             "source": "node_formatter",
             "sink": "node_printer"
+        },
+        {
+            "source": "iothub",
+            "sink": "node_printer"_
+        },
+        {
+            "source": "iothub",
+            "sink": "sensor"
         }
     ]
 
@@ -292,8 +301,12 @@ From a pipeline perspective, the data flows like this...
 
 * data from every module (*) is sent to the logger component (for debug dumping to a file)
 * the first module in the pipeline (nothing 'sources' it) is the node_sensor module.  This is the module doing "protocol translation" from our device.  Note, this data is the raw CSV-formatted temperature/humidity data from the 'dumb' Arduino device
-* the data read from the sensor is sent to the node_formatter module.  This module will take the raw CSV data and re-format it to JSON, which is what we want to send to the IotHub
+* the data read from the sensor is sent to the node_formatter module.  This module will take the raw CSV data and re-format it to JSON, which is what we want to send to the IotHub.  The formatter module (just to have somewhere to put it), also sends the "device info" structure at startup to the RM-PCS, which uses it to drive the UI around what commands the device supports that can be sent to it.  This structure is specific to the RM-PCS and not generally a part of the gateway
 * once the data leaves the node_formatter module, it is split.  One path sends the data to the Microsoft-provided 'iothub' module for tranmission up to IoTHub.  The other path sends the data to the node_printer module, whose simple job is dump the data to the screen for debugging
+* the last two links deal with cloud-to-device commands coming to the device via ioTHub
+  * the IoTHub module listens for commands from all devices that connect through it.  When a command is sent, a callback gets raised in that module and it drops the message back on the broker
+  * We have two 'listeners' for that message, one is the printer to simply print out the received command, and
+  * the other is the 'sensor' module, which from above, is the module that knows how to interact with the device.  The sensor module receives the command from IoTHub and, since we are just doing a simple test, passes the command along to the device.  The 'commands' in this case either contain the string 'ON' or 'OFF", which turns the on-board LED on the Arduino device on or off accordingly
 
 #### Anatomy of a Node gateway module:
 
@@ -397,8 +410,6 @@ Observe the gateway output, you should see output similar to the below:
 	formatter.destroy
 	Info: Transport state changed from AMQP_TRANSPORT_STATE_CONNECTED to AMQP_TRANSP                                                                                                                     ORT_STATE_BEING_DESTROYED
 
-\<TODO:   put code in here to view the data in the RM-PCS>
-
 To end execution, which to the window that is running the client.js app and hit CTRL-C.  Switch back to the gateway module window and hit \<enter>
 
 ### Step 5 - Add edge processing to the gateway
@@ -467,5 +478,32 @@ You should see output similar to the below:
 
 Note that now you only see the average temp and humidity being published after every 5 samples for downstream JSON formatting and sending to iothub.  We've aggregated and filtered data from our "dumb" device via an IoT gateway.
 
- 
+### Step 6 - View the device in the RM-PCS and test sending commands to the device
+
+Now that we have data flowing up to the RM-PCS, we can take a look and interact with the device.  
+
+1. ) navigate to the RM-PCS at (https://\[solutionname\].azurewebsites.net)  
+2. ) from the drop down list box in the upper right, choose your device.   After a few minutes to load, you should see your temperature and humidity values from your device graphed on the screen.
+3. ) On the left-hand nav, choose "Devices".  Select your device and a 'details' pane should open to the right.  In the upper part of the pane, click on "Commands"
+4. ) on the commands screen, in the drop down list box, should be our "ON" and "OFF" commands
+5. ) choose "ON" from the list box and click the "Send Command" button that appears
+6. ) switch back over to the putty window that contains your running gateway, you should see a message similar to the following indicating that the iothub module has received a command and put it through the message broker (to the printer module) -- space added for emphasis
+
+        edgeprocessor.receive:  58.50,69.62
+        sensor.received:  58.60,69.62
+        edgeprocessor.receive:  58.60,69.62
+        
+        printer.receive.properties: { source: 'iothub', deviceName: 'aaGWTest' }
+        printer.receive - {"Name":"ON","DeliveryType":0,"MessageId":"6e4852fc-6d19-4416-ad2f-2f4b1793257b","CreatedTime":"2017-05-03T03:16:26.9672297Z","UpdatedTime":"0001-01-01T00:00:00","Result":null,"ReturnValue":null,"ErrorMessage":null,"Parameters":{}}
+        
+        sensor received command: {"Name":"ON","DeliveryType":0,"MessageId":"6e4852fc-6d19-4416-ad2f-2f4b1793257b","CreatedTime":"2017-05-03T03:16:26.9672297Z","UpdatedTime":"0001-01-01T00:00:00","Result":null,"ReturnValue":null,"ErrorMessage":null,"Parameters":{}}
+
+        sensor.received:  58.60,69.62
+        edgeprocessor.receive:  58.60,69.62
+
+7. ) Within a few seconds, you should also see the on-board LED on the Arduinon light up
+8. ) Back on the RM-PCS portal, refresh the browser page and notice the "success" status of the command
+9. ) repeat step 5 and choose the "OFF" command.  Note the similar debug output from the GW and the LED turning back off
+
+**Congratulations!  You've now connected a "dumb" device through a gateway, to Azure IoT, sending device telemetry data and bi-directional command and control.  The next modules will let you interact with that data further.**
 
