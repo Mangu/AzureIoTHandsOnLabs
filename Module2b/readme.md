@@ -10,7 +10,7 @@ In this series of labs, you will:
 
 1. Create and navigate the Azure IoT Remote Monitoring Pre-Configured Solution (RM-PCS)
 2. Create a device to read a temperature and humidity sensor and send that data to the RM-PCS for display
-3. Create a Stream Analytics job that looks for ëhigh temperatureí alerts and outputs that alert to a queue for further processing
+3. Create a Stream Analytics job that looks for ‚Äòhigh temperature‚Äô alerts and outputs that alert to a queue for further processing
 4. Create an Azure Function that takes that alert, and sends a command to the device to turn on or off an LED depending on the alert condition.
     
 At the end of this lab you will have a physical IoT device connected to an Azure IoT Gateway (connected via Wifi), sending telemetry data to Azure IoT.
@@ -37,8 +37,8 @@ In this section, we will connect, setup, and program our Arduino device.  That w
 
 This lab module uses the Arduino IDE for development.  If this is not already installed on your workstation please follow these steps for installation:
 1.	Using a web browser navigate to www.arduino.cc
-2.	Click on the ìDownloadsî tab on the home page.
-3.	Click on ìWindowsî for the current windows installer.
+2.	Click on the ‚ÄúDownloads‚Äù tab on the home page.
+3.	Click on ‚ÄúWindows‚Äù for the current windows installer.
 
 ![ArduinoInstall](/images/m2bArduino1.png)
 
@@ -46,21 +46,21 @@ This lab module uses the Arduino IDE for development.  If this is not already in
 
 ![ArduinoInstall2](/images/m2bArduino2.png)![ArduinoInstall2](/images/m2bArduino3.png)
 
-(Note:  Install USB driver is important as weíll use this driver to communicate with the device and deploy code to it.) 
+(Note:  Install USB driver is important as we‚Äôll use this driver to communicate with the device and deploy code to it.) 
 
 ##### Familiarize ourselves with the Arduino IDE and install DHT libraries
 
-1.)	Launch the Arduino Desktop App.  Upon launching you will be presented an empty project called a ìsketchî.
+1.)	Launch the Arduino Desktop App.  Upon launching you will be presented an empty project called a ‚Äúsketch‚Äù.
 
 ![ArduinoIDE](/images/m2bArduino4.png)
 
-2.)	Connect the Arduino device to the workstation with the USB cable.  (Note: the Arduino device can get power via either USB or an external power supply.  For the purposes of this workshop weíll be getting power via USB)
+2.)	Connect the Arduino device to the workstation with the USB cable.  (Note: the Arduino device can get power via either USB or an external power supply.  For the purposes of this workshop we‚Äôll be getting power via USB)
 
 3.)	In the Arduino IDE you must select your device as your deployment target.  Do this from the Tools -> Port menu:
 
 ![ArduinoIDE](/images/m2bArduino5.png)
 
-4.)	Now that the device is setup in the IDE, you can open and deploy a sample sketch.  From the File -> Examples -> Basic menu open the ìBlinkî sketch.
+4.)	Now that the device is setup in the IDE, you can open and deploy a sample sketch.  From the File -> Examples -> Basic menu open the ‚ÄúBlink‚Äù sketch.
 
 ![ArduinoIDE](/images/m2bArduino6.png)
 
@@ -70,13 +70,13 @@ This lab module uses the Arduino IDE for development.  If this is not already in
 
 In this section, we will assemble the IoT device out of the arduino and DHT22 temp/humidity sensor
 
-1.)	**Disconnect the Arduino from your workstation!!**.  Note this step is very important to ensure there is no electric charge running through the device while weíre assembling.
+1.)	**Disconnect the Arduino from your workstation!!**.  Note this step is very important to ensure there is no electric charge running through the device while we‚Äôre assembling.
 
 2.)	With the provided jumper wires and breadboard assemble the Arduino using the following schematic.  ** please note the diagram is logical and not to scale.  The first and second pins cannot really be separated like shown **
 
 ![schematic](/images/m2bArduino7.png)
 
-This diagram may seem complicated, so letís deconstruct it a bit.
+This diagram may seem complicated, so let‚Äôs deconstruct it a bit.
 
 3. )	The black wire is the ground wire; it runs to the right most pin on the DHT sensor.
 4. )	The red wire provides power; it runs to the left most pin on the DHT sensor.
@@ -89,31 +89,31 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
 
 1.)	Plug your device back in to your workstation via USB.
 
-2.)	In order to use the sensor we first need to download a library for simplifying communication with the device.  In the Arduino IDE select ìManage Librariesî from the Sketch -> Include Library menu.
+2.)	In order to use the sensor we first need to download a library for simplifying communication with the device.  In the Arduino IDE select ‚ÄúManage Libraries‚Äù from the Sketch -> Include Library menu.
 
 ![library install](/images/m2bArduino8.png)
 
-3.)	From the library manager window search for ìDHTî,  select the second option ìDHT sensor library by Adafruitî library, and click ìInstallî.
+3.)	From the library manager window search for ‚ÄúDHT‚Äù,  select the second option ‚ÄúDHT sensor library by Adafruit‚Äù library, and click ‚ÄúInstall‚Äù.
 
 ![library install](/images/m2bArduino9.png)
 
 4.)	When the install is complete close the Library Manager window.
 
-5.)	Now itís time to write some code.  First we must include a reference and some initialization code for the DHT sensor.  This includes referencing the installed module, defining which data pin we communicate on, and defining the sensor type (DHT22).  Put this code at the top of an empty new sketch
+5.)	Now it‚Äôs time to write some code.  First we must include a reference and some initialization code for the DHT sensor.  This includes referencing the installed module, defining which data pin we communicate on, and defining the sensor type (DHT22).  Put this code at the top of an empty new sketch
 
     #include <DHT.h>
     #define DHTTYPE DHT22
 
-    //Setís the pin weíre reading data from and initializes the sensor.
+    //Set‚Äôs the pin we‚Äôre reading data from and initializes the sensor.
     int DHTPIN = 2;
     DHT dht(DHTPIN,DHTTYPE);
     String inputString = "";         // a string to hold incoming data
     boolean stringComplete = false;  // whether the string is complete
     #define pinLED 13     // pin 13 is the onboard LED
 
-6.)	Next we need to open the connection to the sensor, open the port for communication of sensor readings (weíll be using a serial connection over USB), and finally begin DHT sensor readings.  **In the provided setup() procedure** include the following:
+6.)	Next we need to open the connection to the sensor, open the port for communication of sensor readings (we‚Äôll be using a serial connection over USB), and finally begin DHT sensor readings.  **In the provided setup() procedure** include the following:
 
-    //Tell the arduino weíll be reading data on the defined DHT pin
+    //Tell the arduino we‚Äôll be reading data on the defined DHT pin
     pinMode(DHTPIN, INPUT);
 
     //Open the serial port for communication
@@ -126,7 +126,7 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
     // start with the LED off
     digitalWrite(pinLED, LOW);
 
-7.)	Finally, we need to capture the readings from the sensor and output them to the serial port.  The DHT22 sensor is only rated to read data once every 2 seconds so weíll need to include some code to prevent reading too frequently.  We also add code to listen on the serial port for ëcommandsí from the gateway and turns the onboard LED on or off depending on the command.   **All the main application logic runs in the loop() procedure** which gets called after setup and runs as a never ending loop.
+7.)	Finally, we need to capture the readings from the sensor and output them to the serial port.  The DHT22 sensor is only rated to read data once every 2 seconds so we‚Äôll need to include some code to prevent reading too frequently.  We also add code to listen on the serial port for ‚Äòcommands‚Äô from the gateway and turns the onboard LED on or off depending on the command.   **All the main application logic runs in the loop() procedure** which gets called after setup and runs as a never ending loop.
 
     //declare variables for storing temperature and humidity and capture
     float h = dht.readHumidity();
@@ -134,7 +134,7 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
 
     //output data as humidity,temperature
     Serial.print(h);
-    Serial.print(ì,î);
+    Serial.print(‚Äú,‚Äù);
     Serial.println(t);  //println includes linefeed
     serialEvent(); //call the function to read any command in the serial buffer
     // print the string when a newline arrives
@@ -177,19 +177,19 @@ In this section, we will write the arduino "code" to talk to the DHT sensor and 
 
 ![sketch check](/images/m2bArduino11.png)
 
-11.)	In the serial monitor, on the bottom right, make sure ìnewline onlyî is chosen.  Then type ìONî into the input box on the top, hit ìSENDî and ensure the onboard LED lights up.  Type ìOFFî and hit SEND and make sure the LED turns back off
+11.)	In the serial monitor, on the bottom right, make sure ‚Äúnewline only‚Äù is chosen.  Then type ‚ÄúON‚Äù into the input box on the top, hit ‚ÄúSEND‚Äù and ensure the onboard LED lights up.  Type ‚ÄúOFF‚Äù and hit SEND and make sure the LED turns back off
 
-12.)	Congratulations, youíve built and programmed your sensor.  For more information on the DHT22 sensor see the adafruit website:  https://learn.adafruit.com/dht/overview 
+12.)	Congratulations, you‚Äôve built and programmed your sensor.  For more information on the DHT22 sensor see the adafruit website:  https://learn.adafruit.com/dht/overview 
 
 #### Step 2 - Gathering IDs, Keys, and Connection Strings
 
 Before we can connect the device to the Azure RM-PCS, we need to let the solution know about the device (so we can authenticate).  
 
 1.	Navigate to your RM-PCS solution   (https://\[solutionname\].azurewebsites.net)
-2.	On the bottom left corner, click the ìAdd a deviceî button
+2.	On the bottom left corner, click the ‚ÄúAdd a device‚Äù button
  
-3.	Click Add New under ìCustom Deviceî
-4.	On the next screen, change the radio buttons to ìlet me define my own Device IDî, and pick a deviceID for your device
+3.	Click Add New under ‚ÄúCustom Device‚Äù
+4.	On the next screen, change the radio buttons to ‚Äúlet me define my own Device ID‚Äù, and pick a deviceID for your device
  ![Custom Device](/images/m2AddDevice.png) 
 5.	Click Create
 6.	Your device is now added to the RM-PCS.  Copy the three parameters displayed on this page, Device ID, IoTHub Hostname, and Device Key.  Paste them into notepad, as we will need them later on
@@ -234,8 +234,6 @@ From the RPI command line:
 4.) Copy and paste (execute) the export message that shows up on screen to set the NODE_INCLUDE and NODE_LIB environment variables
 
     ./build.sh --enable-nodejs-binding
-    cd ../samples/nodejs_simple_sample/nodejs_modules/
-    npm install
 
 Now we have all the necessary infrastructure to create a run a gateway.
 
