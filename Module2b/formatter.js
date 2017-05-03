@@ -38,7 +38,7 @@ module.exports = {
 
 	var msgtxt = data.replace("%%DEVICEID%%", module.exports.deviceID);
 
-	console.log('sending deviceinfo: ' + msgtxt);
+//	console.log('sending deviceinfo: ' + msgtxt);
 
         module.exports.broker.publish({
                     properties: {
