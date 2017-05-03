@@ -23,7 +23,7 @@ For the lab hardware, you need at a minimum, a RaspberryPi (2, 3, or ZeroW), a D
 
 *	Raspberry PI 3 kit - https://www.adafruit.com/products/3058
 *	DHT 22  Temperature and Humidity Sensor - https://www.adafruit.com/products/385
-    *   (optional) - if you want to experience the gateway SDK, you need an Arduino device - https://www.adafruit.com/product/50 (feel free to substitute any other Arduino device with a USB port, like a Nano, for example).  You also need th correct USB cable to hook your arduino up to the Raspberry Pi
+*   (optional) - if you want to experience the gateway SDK, you need an Arduino device - https://www.adafruit.com/product/50 (feel free to substitute any other Arduino device with a USB port, like a Nano, for example).  You also need th correct USB cable to hook your arduino up to the Raspberry Pi
 
 ### Modules
 
