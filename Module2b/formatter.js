@@ -27,6 +27,28 @@ module.exports = {
 
     start: function () {
 	console.log('formatter.start');
+	
+	fs = require('fs')
+
+	fs.readFile('deviceinfo.json', 'utf8', function (err,data) {
+		if (err) {
+		    console.log(err);
+  		}
+	  	console.log(data);
+
+	var msgtxt = data.replace("%%DEVICEID%%", module.exports.deviceID);
+
+	console.log('sending deviceinfo: ' + msgtxt);
+
+        module.exports.broker.publish({
+                    properties: {
+			source: "mapping",    // needed for the iothub writer module
+			deviceName: module.exports.deviceID,
+			deviceKey: module.exports.deviceKey
+                    },
+                    content: new Uint8Array(Buffer.from(msgtxt))
+       		});	
+	});
     },
 
     receive: function(message) {

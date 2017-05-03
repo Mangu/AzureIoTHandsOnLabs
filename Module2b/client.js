@@ -30,7 +30,21 @@ var client = net.connect(PIPE_PATH, function() {
 })
 
 client.on('data', function(data) {
-    console.log('Client: on data:', data.toString());
+    console.log('Received Command:', data.toString());
+
+    if(data.toString().indexOf("ON") > -1)
+    {
+	myPort.write("ON\n");
+	myPort.drain();
+	console.log('Sending Command: ON');
+    }
+    else
+    {
+	myPort.write("OFF\n");
+	myPort.drain();
+	console.log('Sending Command: OFF');
+    }
+    
 });
 
 client.on('end', function() {

@@ -82,6 +82,14 @@
         {
             "source": "node_formatter",
             "sink": "node_printer"
+        },
+        {
+            "source": "iothub",
+            "sink": "node_printer"
+        },
+        {
+            "source": "iothub",
+            "sink": "node_sensor"
         }
     ]
 }

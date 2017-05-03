@@ -1,0 +1,34 @@
+{
+	"ObjectType":"DeviceInfo", 
+	"Version":"1.0", "IsSimulatedDevice":false, 
+	"DeviceProperties":
+	{
+		"DeviceID":"%%DEVICEID%%", 
+		"HubEnabledState":true
+	},
+	"Commands":
+	[
+		{ 
+			"Name":"ON", 
+			"Parameters":[]
+		},
+		{ 
+			"Name":"OFF", 
+			"Parameters":[]
+		}
+	],
+	"Telemetry": 
+	[
+		{
+			"Name": "Temperature",
+			"Type": "double",
+			"DisplayName": "Temperature (*F)"
+		},
+		{
+			"Name": "Humidity",
+			"Type": "double",
+			"DisplayName": "Humidity (relative)"
+		}
+	]
+}
+

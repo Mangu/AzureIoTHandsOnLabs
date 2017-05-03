@@ -7,6 +7,7 @@ module.exports = {
     server: null,
     pipeName: null,
     pipePath:  null,
+    pipeStream: null,
 
     create: function (broker, configuration) {
         this.broker = broker;
@@ -34,6 +35,7 @@ module.exports = {
         this.server = net.createServer(function(stream) {
                 
 		console.log('creating server');
+		module.exports.pipeStream = stream;
 
 		stream.on('data', function(c) {
                 	console.log('sensor.received: ', c.toString());
@@ -49,6 +51,11 @@ module.exports = {
     },
 
     receive: function(message) {
+
+	var msgtxt = Buffer.from(message.content).toString()
+	console.log('sensor received command: ' + msgtxt);
+	this.pipeStream.write(msgtxt);
+
     },
 
     destroy: function() {
